@@ -1,5 +1,5 @@
 {
-  "name": "vm-veutify",
+  "name": "ninja-smoothies",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,14 +10,13 @@
   "dependencies": {
     "core-js": "^3.4.4",
     "vue": "^2.6.10",
-    "vue-currency-filter": "^4.0.3",
-    "vue-router": "^3.1.5",
-    "vuetify": "^2.2.6"
+    "vue-router": "^3.1.3",
+    "vuetify": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-plugin-router": "^4.1.2",
+    "@vue/cli-plugin-router": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
     "@vue/eslint-config-prettier": "^5.0.0",
     "babel-eslint": "^10.0.3",
