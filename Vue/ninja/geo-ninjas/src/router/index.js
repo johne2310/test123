@@ -19,24 +19,9 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
-  {
-    path: '/chat',
-    name: 'chat',
-    props: true,
-    beforeEnter: (to, from, next) => {
-      if (to.params.user) {
-        next();
-      } else {
-        next({ name: 'home' });
-      }
-    },
-
-    component: () => import('../views/Chat.vue'),
-  },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
   routes,
 });
 
