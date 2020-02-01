@@ -24,6 +24,11 @@ const routes = [
     name: 'add',
     component: () => import('../views/AddSmoothie.vue'),
   },
+  {
+    path: '/edit/:id',
+    name: 'edit',
+    component: () => import('../views/EditSmoothie.vue'),
+  },
 ];
 
 const router = new VueRouter({

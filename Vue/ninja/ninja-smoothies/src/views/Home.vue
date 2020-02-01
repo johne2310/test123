@@ -4,22 +4,22 @@
       <v-col>
         <AddSmoothie
           v-show="showAdd"
-          @pass-object="addNewSmoothie($event)"
           @close-form="closeForm"
+          :smoothie="smoothie"
         ></AddSmoothie>
       </v-col>
     </v-row>
     <v-row>
       <v-col
         v-for="smoothie in smoothies"
-        :key="smoothie.title"
+        :key="smoothie.id"
         cols="12"
         md="4"
         align-self="center"
       >
         <SmoothieCard
           :smoothie="smoothie"
-          @deleteCard="deleteCard"
+          @deleteCard="deleteCard($event)"
         ></SmoothieCard>
       </v-col>
     </v-row>
@@ -28,9 +28,6 @@
         <v-btn @click="showAdd = !showAdd" rounded color="primary">
           Show Add Form</v-btn
         >
-        <v-btn @click="showSmoothies" rounded color="primary">
-          Show Smoothies</v-btn
-        >
       </v-col>
     </v-row>
   </v-container>
@@ -38,6 +35,8 @@
 
 <script>
 import EventBus from '../EventBus';
+import { smoothiesCollection } from '../firebase';
+// import { db } from '../firebase';
 // @ is an alias to /src
 import SmoothieCard from '@/components/SmoothieCard.vue';
 import AddSmoothie from '@/views/AddSmoothie.vue';
@@ -49,57 +48,53 @@ export default {
     return {
       showAdd: false,
       newSmoothie: {},
-      smoothies: [
-        {
-          title: 'Ninja Brew',
-          slug: 'ninja-brew',
-          ingredients: ['banana', 'coffee', 'milk'],
-        },
-        {
-          title: 'Morning Mood',
-          slug: 'morning-mood',
-          ingredients: ['mango', 'lime', 'juice'],
-        },
-      ],
+      smoothies: [],
+      smoothie: {},
     };
   },
+  firestore: {
+    smoothies: smoothiesCollection, // or use db.collection('smoothies'),
+  },
   created: function() {
-    EventBus.$on('show-add-form', this.toggleForm);
+    //check to see if smoothies array has been loaded from firestore
+    console.log('Loading smoothies from Firestore: ', this.smoothies);
   },
 
   mounted: function() {
-    console.log('running created hook');
-    // console.log('Smoothis array before emit: ', this.smoothies);
-    // EventBus.$on('new-smoothie', this.addBusSmoothie);
+    //listen to click event to show new smoothie form (click from NavBar button)
+    EventBus.$on('show-add-form', this.toggleForm);
+    EventBus.$on('show-edit-form', this.toggleEditForm);
   },
   methods: {
     toggleForm(data) {
       this.showAdd = data;
     },
-    deleteCard(key) {
-      console.log(key, 'from Home');
+    toggleEditForm(data) {
+      console.log('Data from show edit: ', data);
+      // this.showAdd = data;
+    },
+    deleteCard(id) {
+      console.log(id, 'from Home');
       this.smoothies = this.smoothies.filter(smoothie => {
-        return smoothie.title != key;
+        return smoothie.id != id;
       });
     },
     addNewSmoothie(data) {
       console.log('emited new smoothie: ', data);
-      this.smoothies.push(data);
+      // this.smoothies.push(data);
       console.log('new Smoothie array: ', this.smoothies);
+
+      //add new smoothie to Firestore
+      smoothiesCollection
+        .add(data)
+        .then(() => {
+          console.log('New smoothie added');
+        })
+        .catch(error => {
+          console.log('There was an error adding the record: ', error);
+        });
     },
-    addBusSmoothie(data) {
-      if (data) {
-        console.log('ADD BUS: ', data);
-        // console.log('new-smoothie data: ', data);
-        // this.newSmoothie = data;
-        this.smoothies.unshift(data);
-        console.log('New Smoothie Array: ', this.smoothies);
-      }
-      this.$forceUpdate();
-    },
-    showSmoothies() {
-      console.log('Current smoothies array: ', this.smoothies);
-    },
+
     closeForm() {
       this.showAdd = false;
     },
