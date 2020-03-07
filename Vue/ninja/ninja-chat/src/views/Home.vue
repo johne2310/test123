@@ -1,5 +1,6 @@
 <template>
   <v-container class="mx-auto mt-8">
+    {{ name | capitalise }}
     <v-row>
       <v-col>
         <v-card class="mx-auto" width="400">
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       user: '',
+      name: 'jimbob',
       // isValid: false,
       rules: {
         required: value => !!value || 'A username is required.',

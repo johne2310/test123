@@ -14,6 +14,10 @@ Vue.use(firestorePlugin);
 
 Vue.config.productionTip = false;
 
+Vue.filter('capitalise', function(value) {
+  return value.toUpperCase();
+});
+
 new Vue({
   router,
   vuetify,

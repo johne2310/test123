@@ -2,9 +2,9 @@
   <v-card :color="sale.color">
     <v-card-text>
       <v-sparkline
-        :value="sale.sales"
-        :show-labels="false"
         :labels="sale.labels"
+        :show-labels="false"
+        :value="sale.sales"
         color="rgb(255,255,255,0.7)"
         height="100"
         padding="24"

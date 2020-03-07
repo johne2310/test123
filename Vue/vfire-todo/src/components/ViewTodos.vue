@@ -15,10 +15,10 @@
         <li v-for="todo in todos" :key="todo.id" class="todo-item">
           <label class="todo-item-label">
             <input
-              type="checkbox"
               v-model="todo.completed"
               @change="updateTodo(todo)"
               class="todo-item__checkbox"
+              type="checkbox"
             />
             {{ todo.text }}
           </label>
