@@ -1,5 +1,4 @@
 import { vuexfireMutations, firestoreAction } from 'vuexfire';
-import createPersistedState from 'vuex-persistedstate';
 import router from '../../router/index';
 import { meetupCollection } from '../../firebase';
 import 'firebase/auth';
@@ -8,11 +7,6 @@ export default {
   state: {
     loadedMeetups: [],
   },
-  plugins: [
-    createPersistedState({
-      paths: ['loadedMeetups'],
-    }),
-  ],
   mutations: {
     ...vuexfireMutations,
   },
@@ -39,14 +33,12 @@ export default {
         })
         .then(() => {
           commit('success', true);
-          console.log('New meetup saved to firebase: ');
         })
         .catch(error => {
           commit('setError', error.message);
         });
     },
     saveMeetup({ commit }, payload) {
-      console.log('saveMeetup: ', payload);
       commit('clearError');
 
       const queryRef = meetupCollection.doc(payload.id);

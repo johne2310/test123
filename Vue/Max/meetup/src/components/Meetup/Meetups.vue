@@ -10,17 +10,18 @@
                 </v-img>
               </v-col>
               <v-col cols="6" xs="7" sm="8" md="9" class="pl-0">
-                <v-card-title>
+                <v-card-title class="pt-2">
                   <div>
                     <div class="title">
                       {{ meetup.title }}
                     </div>
                     <div class="grey--text text--darken-2 subtitle-2">
-                      {{ meetup.date | longDate }} - {{ meetup.time }}
+                      {{ meetup.date | longDate }} <br />
+                      {{ meetup.time }}
                     </div>
                   </div>
                 </v-card-title>
-                <v-card-actions>
+                <v-card-actions class="pt-0">
                   <v-btn
                     rounded
                     small

@@ -10,7 +10,6 @@ export default {
       state.loading = payload;
     },
     setError(state, payload) {
-      console.log('error is: ', payload);
       state.error = payload;
     },
     clearError(state) {

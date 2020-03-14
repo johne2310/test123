@@ -223,7 +223,6 @@ export default {
       this.$refs.form.reset();
     },
     onDismissed() {
-      console.log('Alert dismissed');
       this.$refs.title.focus();
       this.$store.dispatch('clearError');
     },

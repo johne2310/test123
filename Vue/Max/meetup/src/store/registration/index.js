@@ -18,7 +18,6 @@ export default new Vuex.Store({
 
   mutations: {
     registerMeetup(state, payload) {
-      console.log('Payload from registerMeetup: ', payload);
       state.user.registeredMeetups.push(payload);
     },
     unRegisterMeetup(state, payload) {
@@ -37,7 +36,6 @@ export default new Vuex.Store({
       state.loading = payload;
     },
     setError(state, payload) {
-      console.log('error is: ', payload);
       state.Error = payload;
     },
     clearError(state) {

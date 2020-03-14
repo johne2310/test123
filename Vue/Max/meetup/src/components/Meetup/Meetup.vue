@@ -72,8 +72,6 @@ export default {
     },
     isCreator() {
       const currentUser = this.$store.getters.user;
-      console.log('current user: ', currentUser.userId);
-      console.log('meetup creatorId: ', this.meetup.creatorId);
       return currentUser.userId === this.meetup.creatorId;
     },
     success: {
@@ -96,11 +94,6 @@ export default {
     editMeetup() {
       this.$router.push({ name: 'Edit', params: { id: this.id } });
     },
-  },
-  mounted() {
-    console.log('params: ', this.id);
-
-    console.log('meetup: ', this.meetup);
   },
 };
 </script>

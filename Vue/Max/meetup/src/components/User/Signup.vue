@@ -103,7 +103,6 @@ export default {
       this.$refs.form.reset();
     },
     onDismissed() {
-      console.log('Alert was dismissed');
       this.$refs.email.focus();
       this.$store.dispatch('clearError');
     },

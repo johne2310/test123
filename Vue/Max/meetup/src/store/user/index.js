@@ -1,6 +1,5 @@
-import createPersistedState from 'vuex-persistedstate';
 import router from '../../router/index';
-import { usersCollection } from '../../firebase';
+import { usersCollection, meetupCollection } from '../../firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -8,11 +7,6 @@ export default {
   state: {
     user: null,
   },
-  plugins: [
-    createPersistedState({
-      paths: ['user'],
-    }),
-  ],
   mutations: {
     registerUser(state, newUser) {
       state.user = {
@@ -21,7 +15,6 @@ export default {
       };
     },
     registerMeetup(state, payload) {
-      console.log('Payload from registerMeetup: ', payload);
       state.user.registeredMeetups.push(payload);
     },
     unRegisterMeetup(state, payload) {
@@ -33,18 +26,21 @@ export default {
     },
     //load meetups on signin
     loadRegisteredMeetups(state, payload) {
-      state.user = payload;
+      state.user.registeredMeetups = payload.registeredMeetups;
     },
     signout(state) {
       state.user = null;
     },
-    signin(state, id) {
-      console.log('sign in mutation id: ', id);
+    signin(state, payload) {
       state.user = {
-        userId: id,
+        userId: payload.uid,
+        email: payload.email,
         registeredMeetups: [],
+        meetingTitles: [],
       };
-      console.log('state user: ', state.user);
+    },
+    meetingTitles(state, payload) {
+      state.user.meetingTitles = payload;
     },
   },
   actions: {
@@ -60,9 +56,9 @@ export default {
             userId: cred.user.uid,
             registeredMeetups: [],
           };
-          usersCollection.add(newUser).then(docRef => {
-            console.log('New user document created with id: ', docRef.id);
-          });
+          // usersCollection.add(newUser).then(docRef => {
+          //   console.log('New user document created with id: ', docRef.id);
+          // });
           commit('registerUser', newUser);
           router.push({ name: 'Home' });
         })
@@ -87,15 +83,14 @@ export default {
           commit('setError', error.message);
         });
     },
-    signin({ commit, dispatch, state }, payload) {
+    signin({ commit, state }, payload) {
       commit('setLoading', true);
       commit('clearError');
       firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(cred => {
-          commit('signin', cred.user.uid);
-          console.log('Signed in user: ', cred.user.uid);
+          commit('signin', cred.user);
         })
         .then(() => {
           //load registeredMeetups for this user
@@ -107,7 +102,6 @@ export default {
           queryRef.get().then(snapshot => {
             snapshot.forEach(doc => {
               commit('loadRegisteredMeetups', doc.data());
-              console.log('registered meetups: ', doc.data());
             });
           });
         })
@@ -121,7 +115,7 @@ export default {
     },
     autoSignin({ commit, state }, payload) {
       // router.push({ name: 'Home' }).catch(() => {});
-      commit('signin', payload.uid);
+      commit('signin', payload);
 
       // ensure registeredMeetups is loaded on autoSignin
       const queryRef = usersCollection.where('userId', '==', state.user.userId);
@@ -131,7 +125,32 @@ export default {
         });
       });
     },
-    getUserDetails({ commit }, payload) {},
+    getUserDetails({ commit, state }, payload) {
+      const titleList = [];
+      const queryRef = meetupCollection.where(
+        'id',
+        'in',
+        state.user.registeredMeetups
+      );
+      queryRef
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            titleList.push({
+              id: doc.data().id,
+              title: doc.data().title,
+              location: doc.data().location,
+              imageUrl: doc.data().imageUrl,
+              date: doc.data().date,
+              time: doc.data().time,
+            });
+          });
+          commit('meetingTitles', titleList);
+        })
+        .catch(error => {
+          commit('setError', error.message);
+        });
+    },
     registerMeetup({ commit, state }, payload) {
       const queryRef = usersCollection.where('userId', '==', state.user.userId);
       queryRef
@@ -179,6 +198,9 @@ export default {
     },
     isRegisteredForMeetup(state) {
       return state.user.registeredMeetups;
+    },
+    getUserMeetups(state) {
+      return state.user.meetingTitles;
     },
   },
 };

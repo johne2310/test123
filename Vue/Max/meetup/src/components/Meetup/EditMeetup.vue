@@ -256,13 +256,11 @@ export default {
       this.$router.push({ name: 'Meetup', params: { id: this.id } });
     },
     onDismissed() {
-      console.log('Alert dismissed');
       this.$refs.title.focus();
       this.$store.dispatch('clearError');
     },
   },
   created() {
-    console.log('Meetup to edit: ', this.id);
     this.title = this.meetup.title;
     this.location = this.meetup.location;
     this.description = this.meetup.description;

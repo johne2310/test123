@@ -88,11 +88,9 @@ export default {
         this.$store.dispatch('signin', user);
         this.$refs.form.reset();
       } else {
-        console.log('There was an error signing in');
       }
     },
     onDismissed() {
-      console.log('Alert dismissed');
       this.$refs.email.focus();
       this.$store.dispatch('clearError');
     },
