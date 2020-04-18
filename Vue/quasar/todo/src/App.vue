@@ -6,6 +6,12 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: 'App',
+};
 </script>
+
+<style>
+.showCompleted {
+  text-decoration: line-through;
+}
+</style>

@@ -40,7 +40,7 @@
       :width="230"
       v-model="leftDrawerOpen"
       bordered
-      content-class="bg-light-blue-1"
+      content-class="bg-blue-grey-2"
     >
       <q-list>
         <q-item-label header class="text-grey-10">

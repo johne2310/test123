@@ -1,6 +1,9 @@
 .DS_Store
 .thumbs.db
-node_modules
+/node_modules
+./node_modules/**
+../exercise/**
+../exercise
 
 # Quasar core related directories
 .quasar

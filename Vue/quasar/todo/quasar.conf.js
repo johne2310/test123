@@ -18,8 +18,11 @@ module.exports = function (ctx) {
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v4',
-      // 'fontawesome-v5',
+      'material-icons-outlined',
+      'material-icons-round',
+      'material-icons-sharp',
+      'mdi-v4',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -44,7 +47,7 @@ module.exports = function (ctx) {
       all: 'auto',
 
       components: [],
-      directives: [],
+      directives: [ 'TouchHold'],
 
       // Quasar plugins
       plugins: ['Dialog']
