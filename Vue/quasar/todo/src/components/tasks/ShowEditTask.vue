@@ -4,8 +4,7 @@
     <q-form @submit.prevent="saveTask">
       <q-card-section>
         <TaskName :taskName.sync="newTask.name"></TaskName>
-        <!-- <div class="q-pt-sm"> -->
-        <!-- <div class="q-gutter-sm row"> -->
+
         <!-- date input -->
         <TaskDueDate
           :taskDueDate.sync="newTask.dueDate"
@@ -17,17 +16,21 @@
           :taskDueTime.sync="newTask.dueTime"
           :isDateSet="isDateSet"
         ></TaskDueTime>
-        <!-- </div> -->
-        <!-- </div> -->
       </q-card-section>
       <q-separator />
       <!-- Action buttons -->
       <TaskButtons :validTask="validTask"></TaskButtons>
+
+      <pre>{{ newTask.dueDate | longDate }}</pre>
+      <pre>{{ newDate }}</pre>
+      <pre>{{ newTask }}</pre>
     </q-form>
   </q-card>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import moment from 'moment';
 import mixinAddEditTask from 'src/mixins/mixin-add-edit-task.js';
 import { uid, date } from 'quasar';
 import TaskHeader from 'components/tasks/TaskHeader.vue';
@@ -38,7 +41,7 @@ import TaskButtons from 'components/tasks/TaskButtons.vue';
 
 export default {
   mixins: [mixinAddEditTask],
-  props: ['taskId', 'taskEdit'],
+  props: ['taskId', 'taskToEdit'],
   components: {
     TaskHeader,
     TaskName,
@@ -58,21 +61,43 @@ export default {
         const newDate = date.extractDate(this.newTask.dueDate, 'DD/MM/YYYY');
         this.newTask.dueDate = newDate;
       }
+      //convert 12 hour format to 24 hour format for saving
+      if (this.settings.show12HourFormat) {
+        const newTime = moment(this.newTask.dueTime, 'hh:mma').format('HH:mm');
+        this.newTask.dueTime = newTime;
+      } else {
+        const newTime = moment(this.newTask.dueTime, 'HH:mm').format('HH:mm');
+        this.newTask.dueTime = newTime;
+      }
       this.$store.dispatch('editTask', this.newTask);
       this.$emit('closeTaskForm');
     },
   },
   computed: {
-    task() {
-      // load task from store based on id passed from prop
-      return this.$store.getters.loadedTask(this.taskId);
+    ...mapGetters(['settings']),
+    newDate() {
+      const newDate = this.$options.filters.displayDate(this.newTask.dueDate);
+      console.log('date for display computed: ', newDate);
+      return newDate;
+    },
+    // task() {
+    // load task from store based on id passed from prop
+    // return this.$store.getters.loadedTask(this.taskId);
+    // },
+  },
+  filters: {
+    longDate(value) {
+      return date.formatDate(value, 'ddd, D MMM YYYY');
+    },
+    displayDate(value) {
+      return date.formatDate(value, 'DD/MM/YYYY');
     },
   },
   created() {
-    this.newTask.id = this.taskId;
-    this.newTask.name = this.task.name;
-    this.newTask.dueDate = date.formatDate(this.task.dueDate, 'DD/MM/YYYY');
-    this.newTask.dueTime = this.task.dueTime;
+    this.newTask = Object.assign({}, this.taskToEdit);
+    this.newTask.dueDate = this.$options.filters.displayDate(
+      this.newTask.dueDate
+    );
   },
 };
 </script>

@@ -27,7 +27,7 @@
 
       <q-item-section side>
         <q-item-label>{{ task.dueDate | longDate }}</q-item-label>
-        <q-item-label>{{ task.dueTime }}</q-item-label>
+        <q-item-label>{{ taskDueTime }}</q-item-label>
       </q-item-section>
 
       <q-item-section side v-if="task.dueDate">
@@ -37,12 +37,7 @@
 
       <q-separator vertical spaced />
       <q-item-section side>
-        <q-btn
-          round
-          color="primary"
-          icon="post_add"
-          @click.stop="editTask(task.id)"
-        />
+        <q-btn round color="primary" icon="post_add" @click.stop="editTask" />
       </q-item-section>
       <q-item-section side>
         <q-btn
@@ -61,7 +56,7 @@
       <show-edit-task
         @closeTaskForm="showEditTaskForm = false"
         :taskId="task.id"
-        :taskEdit="task"
+        :taskToEdit="task"
       ></show-edit-task>
     </q-dialog>
   </div>
@@ -69,8 +64,10 @@
 
 <script>
 import { date } from 'quasar';
+import dayjs from 'dayjs';
+import moment from 'moment';
 const { formatDate } = date;
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import ShowEditTask from 'components/tasks/ShowEditTask.vue';
 export default {
   props: ['task'],
@@ -87,7 +84,7 @@ export default {
     showEditForm() {
       this.showEditTaskForm = true;
     },
-    editTask(id) {
+    editTask() {
       this.showEditTaskForm = !this.showEditTaskForm;
     },
     deleteSelectedTask(id) {
@@ -105,6 +102,16 @@ export default {
   },
   computed: {
     ...mapState(['search']),
+    ...mapGetters(['settings']),
+
+    taskDueTime() {
+      if (this.settings.show12HourFormat) {
+        return moment(this.task.dueTime, 'HH:mm').format('LT');
+      } else {
+        return this.task.dueTime;
+      }
+    },
+
     getStatus: {
       get() {
         return this.$store.getters.tasksTodo;
@@ -124,6 +131,11 @@ export default {
       }
       return value;
     },
+  },
+  mounted() {
+    var date = moment(this.$props.task.dueTime, 'HH:mm').format('LT');
+
+    console.log('Date: ', date);
   },
 };
 </script>

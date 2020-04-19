@@ -14,7 +14,7 @@
           <q-time
             :value="taskDueTime"
             @input="$emit('update:taskDueTime', $event)"
-            mask="hh:mm A"
+            :mask="timeFormat"
             clearable
           >
             <div class="row items-center justify-end q-gutter-sm">
@@ -28,8 +28,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   props: ['taskDueTime', 'isDateSet'],
+  data() {
+    return {
+      // timeFormat: 'hh:mma',
+    };
+  },
+  computed: {
+    ...mapGetters(['settings']),
+    timeFormat() {
+      if (this.settings.show12HourFormat) {
+        console.log('Time Format: ', this.settings.show12HourFormat);
+        return 'hh:mma';
+      } else {
+        return 'HH:mm';
+      }
+    },
+  },
 };
 </script>
 

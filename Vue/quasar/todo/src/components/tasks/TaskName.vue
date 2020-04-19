@@ -25,6 +25,7 @@ export default {
       },
     };
   },
+  computed: {},
   directives: {
     selectAll,
   },
