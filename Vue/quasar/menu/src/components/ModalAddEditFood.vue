@@ -70,6 +70,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { uid } from 'quasar';
+
 export default {
   props: ['type', 'food'],
   data() {
@@ -113,27 +114,34 @@ export default {
 .form-card {
   min-width: 400px;
 }
+
 .form-card .heading {
   text-transform: capitalize;
 }
+
 .form-card .q-card-section {
   width: 100%;
 }
+
 .thumbnail {
   max-width: 50px;
   max-height: 50px;
 }
+
 .form-card .q-img {
   height: 56px;
   width: 56px;
   border-radius: 10px;
 }
+
 .form-card .q-img__image {
   background-size: cover !important;
 }
+
 .form-card .q-rating__icon {
   opacity: 0.2;
 }
+
 .form-card .q-rating__icon--active {
   opacity: 1;
 }

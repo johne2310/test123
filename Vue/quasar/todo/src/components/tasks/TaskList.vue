@@ -1,55 +1,55 @@
 <template>
   <div>
-    <q-item
-      v-ripple
-      clickable
-      @click="updateTask(task)"
-      :class="!task.completed ? 'bg-grey-2' : 'bg-grey-3'"
-      v-touch-hold:1000.mouse="showEditForm"
-    >
-      <q-item-section avatar>
-        <q-checkbox
-          name="completed"
-          v-model="task.completed"
-          class="no-pointer-events"
-        />
-      </q-item-section>
+    <q-list separator bordered>
+      <q-item
+        v-ripple
+        clickable
+        @click="updateTask(task)"
+        :class="!task.completed ? 'bg-grey-2' : 'bg-grey-3'"
+        v-touch-hold:1000.mouse="showEditForm"
+      >
+        <q-item-section avatar>
+          <q-checkbox
+            name="completed"
+            v-model="task.completed"
+            class="no-pointer-events"
+          />
+        </q-item-section>
 
-      <q-space />
+        <q-space />
 
-      <q-item-section>
-        <q-item-label
-          :class="{ showCompleted: task.completed }"
-          v-html="$options.filters.searchHighlight(task.name, search)"
-        >
-        </q-item-label>
-      </q-item-section>
+        <q-item-section>
+          <q-item-label
+            :class="{ showCompleted: task.completed }"
+            v-html="$options.filters.searchHighlight(task.name, search)"
+          >
+          </q-item-label>
+        </q-item-section>
 
-      <q-item-section side>
-        <q-item-label>{{ task.dueDate | longDate }}</q-item-label>
-        <q-item-label>{{ taskDueTime }}</q-item-label>
-      </q-item-section>
+        <q-item-section side>
+          <q-item-label>{{ task.dueDate | longDate }}</q-item-label>
+          <q-item-label>{{ taskDueTime }}</q-item-label>
+        </q-item-section>
 
-      <q-item-section side v-if="task.dueDate">
-        <q-icon name="mdi-calendar-today" size="sm" left color="primary" />
-        <q-icon name="mdi-alarm" size="sm" left color="info" />
-      </q-item-section>
+        <q-item-section side v-if="task.dueDate">
+          <q-icon name="mdi-calendar-today" size="sm" left color="primary" />
+          <q-icon name="mdi-alarm" size="sm" left color="info" />
+        </q-item-section>
 
-      <q-separator vertical spaced />
-      <q-item-section side>
-        <q-btn round color="primary" icon="post_add" @click.stop="editTask" />
-      </q-item-section>
-      <q-item-section side>
-        <q-btn
-          round
-          color="red"
-          icon="delete_outline"
-          @click.stop="deleteSelectedTask(task.id)"
-        />
-      </q-item-section>
-    </q-item>
-
-    <q-separator />
+        <q-separator vertical spaced />
+        <q-item-section side>
+          <q-btn round color="primary" icon="post_add" @click.stop="editTask" />
+        </q-item-section>
+        <q-item-section side>
+          <q-btn
+            round
+            color="red"
+            icon="delete_outline"
+            @click.stop="deleteSelectedTask(task.id)"
+          />
+        </q-item-section>
+      </q-item>
+    </q-list>
 
     <!-- edit task dialog -->
     <q-dialog v-model="showEditTaskForm" no-backdrop-dismiss>
@@ -64,9 +64,8 @@
 
 <script>
 import { date } from 'quasar';
-import dayjs from 'dayjs';
 import moment from 'moment';
-const { formatDate } = date;
+
 import { mapState, mapActions, mapGetters } from 'vuex';
 import ShowEditTask from 'components/tasks/ShowEditTask.vue';
 export default {
@@ -80,7 +79,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['updateTask', 'deleteTask']),
+    ...mapActions({
+      updateTask: 'updateTask',
+      deleteTask: 'deleteTask',
+    }),
     showEditForm() {
       this.showEditTaskForm = true;
     },
@@ -101,9 +103,12 @@ export default {
     },
   },
   computed: {
-    ...mapState(['search']),
-    ...mapGetters(['settings']),
+    ...mapState(['search']), //needs module to be namespaced to work
+    ...mapGetters(['settings', 'getSearch']),
 
+    search() {
+      return this.getSearch;
+    },
     taskDueTime() {
       if (this.settings.show12HourFormat) {
         return moment(this.task.dueTime, 'HH:mm').format('LT');
@@ -131,11 +136,6 @@ export default {
       }
       return value;
     },
-  },
-  mounted() {
-    var date = moment(this.$props.task.dueTime, 'HH:mm').format('LT');
-
-    console.log('Date: ', date);
   },
 };
 </script>

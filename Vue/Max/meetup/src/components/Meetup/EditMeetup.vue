@@ -5,6 +5,7 @@
       @dismissed="onDismissed"
       :errorText="error"
     ></app-alert>
+
     <v-card class="mx-auto blue lighten-5" width="500px">
       <v-form @submit.prevent="saveEditedMeetup" ref="form" v-model="valid">
         <v-card-title class="info--text text--darken-4">

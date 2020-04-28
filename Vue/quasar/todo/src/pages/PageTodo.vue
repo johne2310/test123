@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height column">
@@ -37,10 +38,10 @@
           class="q-mt-sm"
           :tasksTodo="tasksTodo"
           :taskTotal="taskTotal"
-        />
+        ></tasks-todo>
 
         <!-- completed todos -->
-        <tasks-completed class="q-mt-md" :tasksCompleted="tasksCompleted" />
+        <tasks-completed :tasksCompleted="tasksCompleted"></tasks-completed>
 
         <!-- sticky button -->
         <q-page-sticky position="bottom" :offset="[18, 18]">
@@ -99,7 +100,7 @@ export default {
     ...mapActions(['setSortBy']),
 
     changeSort() {
-      if (this.sort === 'name') {
+      if (this.sortBy === 'name') {
         //change sort mutation to name
         this.$store.commit('setSortByName');
       } else {
@@ -116,11 +117,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['tasksTodo', 'tasksCompleted']),
-    ...mapState(['sort']),
+    ...mapGetters(['tasksTodo', 'tasksCompleted', 'getSortBy', 'settings']),
+    ...mapState(['sort']), //not state does not map when using modules without namespace
     sortBy: {
       get() {
-        return this.sort;
+        return this.getSortBy;
       },
       set(value) {
         this.setSortBy(value);
@@ -133,15 +134,11 @@ export default {
         : true;
     },
     validTask() {
-      if (
+      return (
         this.newTask.name.length > 0 &&
         this.newTask.dueDate != '' &&
         this.newTask.dueTime != ''
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      );
     },
     taskTotal() {
       return this.$store.getters.taskTotal;
@@ -149,7 +146,6 @@ export default {
   },
   mounted() {
     this.$store.commit('setSortByName');
-    // this.setSortBy();
   },
 };
 </script>
@@ -161,5 +157,6 @@ export default {
 .q-scroll-area-tasks {
   display: flex;
   flex-grow: 1;
+  height: calc(100% - 80px);
 }
 </style>

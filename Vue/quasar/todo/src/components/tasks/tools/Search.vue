@@ -8,7 +8,7 @@
     clearable
     outlined
     dense
-    v-select-all
+    @focus="selectAll($event)"
   >
     <template v-slot:append>
       <q-icon name="search" />
@@ -17,28 +17,27 @@
 </template>
 
 <script>
-import { selectAll } from 'src/directives/directive-select-all';
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {};
   },
-  directives: {
-    selectAll,
+  methods: {
+    ...mapActions(['setSearchValue']),
+    selectAll(event) {
+      event.target.select();
+    },
   },
   computed: {
-    ...mapState(['search']),
+    ...mapGetters(['getSearch']),
     searchField: {
       get() {
-        return this.search;
+        return this.getSearch;
       },
       set(value) {
         this.setSearchValue(value);
       },
     },
-  },
-  methods: {
-    ...mapActions(['setSearchValue']),
   },
 };
 </script>

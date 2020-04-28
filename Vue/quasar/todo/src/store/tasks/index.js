@@ -144,5 +144,11 @@ export default {
         task.name.toLowerCase().match(state.search.toLowerCase())
       );
     },
+    getSortBy: state => {
+      return state.sort
+    },
+    getSearch: state => {
+      return state.search
+    }
   },
 };

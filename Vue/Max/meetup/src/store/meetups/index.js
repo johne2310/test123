@@ -90,5 +90,12 @@ export default {
         });
       };
     },
+    loadedMeetup2: state => {
+      return meetupId => {
+        return state.loadedMeetups.find(meetup => {
+          return meetup.id === meetupId;
+        });
+      };
+    },
   },
 };

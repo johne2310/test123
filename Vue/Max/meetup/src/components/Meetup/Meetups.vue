@@ -33,6 +33,7 @@
                     View Meetup</v-btn
                   >
                 </v-card-actions>
+                //TODO: Test
               </v-col>
             </v-row>
           </v-container>
@@ -64,6 +65,7 @@ export default {
       timeout: 3000,
     };
   },
+
   computed: {
     ...mapGetters(['loadedMeetups']),
     deleted: {

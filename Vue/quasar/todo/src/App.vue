@@ -5,13 +5,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
-  name: 'App',
+  methods: {
+    ...mapActions(['loadSettings']),
+  },
+  mounted() {
+    this.loadSettings();
+  },
 };
 </script>
 
 <style>
-.showCompleted {
-  text-decoration: line-through;
-}
 </style>

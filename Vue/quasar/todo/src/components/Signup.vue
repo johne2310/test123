@@ -1,9 +1,10 @@
 <!-- add new task dialog -->
+<!--suppress ALL -->
 <q-dialog v-model="addNewTask" no-backdrop-dismiss>
       <q-form @submit.prevent="signup" v-model="valid" ref="form">
         <q-card class="mx-auto mt-5" style="width: 500px">
           <q-card-section class="primary darken-2 white--text my-4">
-            <h1 class="display-1">Signup</h1>
+            <h1 class="display-1">Sign up</h1>
           </q-card-section>
           <q-card-section>
             <q-input v-model="email" filled type="email" hint="Email" />

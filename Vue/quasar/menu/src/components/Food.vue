@@ -1,5 +1,6 @@
 <template>
   <q-card class="card">
+    <!--suppress HtmlUnknownTarget -->
     <q-img
       :src="food.imageUrl ? food.imageUrl : 'statics/image-placeholder.png'"
       basic
@@ -13,10 +14,10 @@
     <q-card-section>
       <q-rating
         :value="food.rating"
-        size="2em"
+        class="q-mt-sm"
         color="orange"
         readonly
-        class="q-mt-sm"
+        size="2em"
       />
     </q-card-section>
 
@@ -25,20 +26,20 @@
       <i v-else>No description provided.</i>
     </q-card-section>
 
-    <q-card-actions class="absolute-bottom" align="right">
-      <q-btn @click="showEditFoodModal = true" icon="edit" color="blue" flat
-        >Edit</q-btn
-      >
-      <q-btn icon="delete" color="red" flat @click="deleteSelectedFood(food.id)"
-        >Delete</q-btn
-      >
+    <q-card-actions align="right" class="absolute-bottom">
+      <q-btn @click="showEditFoodModal = true" color="blue" flat icon="edit"
+        >Edit
+      </q-btn>
+      <q-btn @click="deleteSelectedFood(food.id)" color="red" flat icon="delete"
+        >Delete
+      </q-btn>
     </q-card-actions>
 
     <q-dialog v-model="showEditFoodModal">
       <modal-add-edit-food
-        type="edit"
         :food="food"
         @closeFoodForm="showEditFoodModal = false"
+        type="edit"
       />
     </q-dialog>
   </q-card>
@@ -46,6 +47,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 export default {
   props: ['food'],
   data() {
@@ -57,7 +59,10 @@ export default {
     'modal-add-edit-food': require('components/ModalAddEditFood.vue').default,
   },
   methods: {
-    ...mapActions(['deleteFood']),
+    // ...mapActions(['deleteFood']),
+    ...mapActions({
+      deleteFood: 'deleteFood',
+    }),
     deleteSelectedFood(id) {
       this.$q
         .dialog({

@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <template>
   <div>
     <div v-if="taskTotal">
@@ -6,16 +7,19 @@
         enter-active-class="animated zoomIn"
         leave-active-class="animated zoomOut"
       >
-        <list-header key="list-header" bgColour="bg-primary"
+        <list-header
+          v-if="!settings.showOneList"
+          key="list-header"
+          bgColour="bg-primary"
           >Active Tasks</list-header
         >
-        <q-list key="todo-list" bordered separator>
-          <tasks-todo
-            v-for="task in tasksTodo"
-            :key="task.id"
-            :task="task"
-          ></tasks-todo>
-        </q-list>
+        <!-- <q-list key="todo-list"> -->
+        <task-list
+          v-for="task in tasksTodo"
+          :key="task.id"
+          :task="task"
+        ></task-list>
+        <!-- </q-list> -->
       </transition-group>
     </div>
     <div v-else>
@@ -34,13 +38,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ListHeader from 'components/shared/ListHeader.vue';
 import TaskList from 'components/tasks/TaskList.vue';
 export default {
   props: ['tasksTodo', 'taskTotal'],
   components: {
-    'tasks-todo': TaskList,
+    'task-list': TaskList,
     'list-header': ListHeader,
+  },
+  computed: {
+    ...mapGetters(['settings']),
   },
 };
 </script>

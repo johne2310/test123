@@ -1,3 +1,5 @@
+<!--suppress ALL -->
+
 <template>
   <q-layout view="hHh Lpr lFf">
     <q-header>
@@ -14,7 +16,14 @@
         <q-toolbar-title class="absolute-center">
           Awesome Todo
         </q-toolbar-title>
-
+        <q-space />
+        <q-btn
+          :to="{ name: 'Login' }"
+          flat
+          color="white"
+          icon-right="mdi-account-circle-outline"
+          label="Login"
+        />
         <div></div>
       </q-toolbar>
     </q-header>
@@ -42,7 +51,7 @@
       bordered
       content-class="bg-blue-grey-2"
     >
-      <q-list>
+      <q-list separator>
         <q-item-label header class="text-grey-10">
           Menu
         </q-item-label>

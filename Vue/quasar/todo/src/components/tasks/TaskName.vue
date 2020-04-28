@@ -1,8 +1,8 @@
 <template>
   <q-input
     autofocus
+    @focus="$event.target.select()"
     :value="taskName"
-    v-select-all
     outlined
     hint="Task name"
     @input="$emit('update:taskName', $event)"
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { selectAll } from 'src/directives/directive-select-all';
 export default {
   props: ['taskName'],
   data() {
@@ -25,9 +24,11 @@ export default {
       },
     };
   },
-  computed: {},
-  directives: {
-    selectAll,
+  methods: {
+    selectAll(event) {
+      event.target.select();
+    },
   },
+  computed: {},
 };
 </script>

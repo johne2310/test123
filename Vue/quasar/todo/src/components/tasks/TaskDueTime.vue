@@ -39,8 +39,8 @@ export default {
   computed: {
     ...mapGetters(['settings']),
     timeFormat() {
+      //set the q-time mask based on settings
       if (this.settings.show12HourFormat) {
-        console.log('Time Format: ', this.settings.show12HourFormat);
         return 'hh:mma';
       } else {
         return 'HH:mm';

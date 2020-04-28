@@ -4,7 +4,7 @@
     enter-active-class="animated zoomIn"
     leave-active-class="animated zoomOut"
   >
-    <q-card class="mx-auto mt-5" style="width: 500">
+    <q-card class="mx-auto mt-5" style="width: 500px">
       <TaskHeader>Add New Task</TaskHeader>
       <q-form @submit.prevent="addNewTask">
         <q-card-section>
@@ -37,7 +37,7 @@
 import { mapGetters } from 'vuex';
 import moment from 'moment';
 import mixinAddEditTask from 'src/mixins/mixin-add-edit-task.js';
-import { uid, date } from 'quasar';
+import { date, uid } from 'quasar';
 import TaskHeader from 'components/tasks/TaskHeader.vue';
 import TaskName from 'components/tasks/TaskName.vue';
 import TaskDueDate from 'components/tasks/TaskDueDate.vue';
@@ -69,16 +69,20 @@ export default {
     addNewTask() {
       this.newTask.id = uid();
       if (this.newTask.dueDate) {
-        const newDate = date.extractDate(this.newTask.dueDate, 'DD/MM/YYYY');
-        this.newTask.dueDate = newDate;
+        this.newTask.dueDate = date.extractDate(
+          this.newTask.dueDate,
+          'DD/MM/YYYY'
+        );
       }
-      //convert 12 hour format to 24 hour format for saving
+      //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
       if (this.settings.show12HourFormat) {
-        const newTime = moment(this.newTask.dueTime, 'hh:mma').format('HH:mm');
-        this.newTask.dueTime = newTime;
+        this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
+          'HH:mm'
+        );
       } else {
-        const newTime = moment(this.newTask.dueTime, 'HH:mm').format('HH:mm');
-        this.newTask.dueTime = newTime;
+        this.newTask.dueTime = moment(this.newTask.dueTime, 'HH:mm').format(
+          'HH:mm'
+        );
       }
 
       this.$store.dispatch('addTask', this.newTask);
