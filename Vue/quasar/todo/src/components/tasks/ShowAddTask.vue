@@ -85,12 +85,12 @@ export default {
         );
       }
 
-      this.$store.dispatch('addTask', this.newTask);
+      this.$store.dispatch('tasks/addTask', this.newTask);
       this.$emit('closeTaskForm');
     },
   },
   computed: {
-    ...mapGetters(['settings']),
+    ...mapGetters('settings', ['settings']),
   },
 };
 </script>

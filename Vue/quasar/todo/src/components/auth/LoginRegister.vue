@@ -1,68 +1,86 @@
 <!--suppress ALL -->
 
 <template>
-  <q-form ref="form" @submit.prevent="registerUser">
-    <div class="row q-mb-md">
-      <q-banner
-        :class="{ register: tab === 'register', login: tab === 'login' }"
-        class="col "
-      >
-        <template v-slot:avatar>
-          <q-icon name="mdi-account-circle-outline" color="primary" />
-        </template>
-        {{ tab | titleCase }} here to access your Awesome Todos anywhere
-      </q-banner>
-    </div>
+  <div>
+    <q-banner
+      v-if="error"
+      inline-actions
+      dense
+      rounded
+      class="bg-red text-white"
+    >
+      {{ error }}
+      <template v-slot:action>
+        <q-btn flat label="Dismiss" @click="dismissAlert" k />
+      </template>
+    </q-banner>
 
-    <div class="row q-mb-sm">
-      <q-input
-        ref="email"
-        v-model.trim="credentials.email"
-        class="col"
-        label="Email"
-        :rules="[rules.required, rules.email]"
-        autofocus
-        lazy-rules
-        outlined
-        hint="Enter a valid email address"
-      >
-      </q-input>
-    </div>
+    <q-form ref="form" @submit.prevent="submitUser">
+      <div class="row q-mb-md">
+        <q-banner
+          v-if="!error"
+          :class="{ register: tab === 'register', login: tab === 'login' }"
+          class="col "
+        >
+          <template v-slot:avatar>
+            <q-icon name="mdi-account-circle-outline" color="primary" />
+          </template>
+          {{ tab | titleCase }} here to access your Awesome Todos anywhere
+        </q-banner>
+      </div>
 
-    <div class="row q-mb-sm">
-      <q-input
-        ref="password"
-        class="col"
-        outlined
-        :type="showPassword ? 'text' : 'password'"
-        v-model.trim="credentials.password"
-        :rules="[rules.minLength]"
-        lazy-rules
-        label="Password"
-        hint="Password must contain six characters"
-      >
-        <template v-slot:append>
-          <q-icon
-            :name="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            color="primary"
-            @click="showPassword = !showPassword"
-          />
-        </template>
-      </q-input>
-    </div>
-    <div class="row">
-      <q-space />
-      <q-btn
-        :disable="!setValid()"
-        type="submit"
-        color="primary"
-        :label="tab"
-      />
-    </div>
-  </q-form>
+      <div class="row q-mb-sm">
+        <q-input
+          ref="email"
+          v-model.trim="credentials.email"
+          class="col"
+          label="Email"
+          :rules="[rules.required, rules.email]"
+          autofocus
+          lazy-rules
+          outlined
+          hint="Enter a valid email address"
+        >
+        </q-input>
+      </div>
+
+      <div class="row q-mb-sm">
+        <q-input
+          ref="password"
+          class="col"
+          outlined
+          :type="showPassword ? 'text' : 'password'"
+          v-model.trim="credentials.password"
+          :rules="[rules.minLength]"
+          lazy-rules
+          label="Password"
+          hint="Password must contain six characters"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              color="primary"
+              @click="showPassword = !showPassword"
+            />
+          </template>
+        </q-input>
+      </div>
+      <div class="row">
+        <q-space />
+        <q-btn
+          :disable="!setValid()"
+          :loading="loading"
+          type="submit"
+          color="primary"
+          :label="tab"
+        />
+      </div>
+    </q-form>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
   props: ['tab'],
   data() {
@@ -87,16 +105,27 @@ export default {
   },
 
   methods: {
-    registerUser() {
+    ...mapActions('users', ['registerUser', 'loginUser']),
+    dismissAlert() {
+      this.$store.commit('clearError');
+    },
+    submitUser() {
       if (this.tab === 'register') {
         this.$refs.form
           .validate()
-          .then(() => console.log('Registering User: ', this.credentials))
+          .then(() => {
+            console.log('Registering User: ', this.credentials);
+            this.registerUser(this.credentials);
+          })
           .catch(error => console.log('Form validation failed: ', error));
       } else {
         this.$refs.form
           .validate()
-          .then(() => console.log('Logging in User: ', this.credentials))
+          .then(() => {
+            console.log('Logging in User: ', this.credentials);
+            this.loginUser(this.credentials);
+          })
+
           .catch(error => console.log('Form validation failed: ', error));
       }
     },
@@ -112,6 +141,9 @@ export default {
         );
       }
     },
+  },
+  computed: {
+    ...mapGetters('users', ['error', 'loading']),
   },
   mounted() {
     this.mounted = true;

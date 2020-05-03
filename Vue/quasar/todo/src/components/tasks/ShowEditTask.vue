@@ -17,13 +17,9 @@
           :isDateSet="isDateSet"
         ></TaskDueTime>
       </q-card-section>
-      <q-separator />
+      <!--      <q-separator />-->
       <!-- Action buttons -->
       <TaskButtons :validTask="validTask"></TaskButtons>
-
-      <pre>{{ newTask.dueDate | longDate }}</pre>
-      <pre>{{ newDate }}</pre>
-      <pre>{{ newTask }}</pre>
     </q-form>
   </q-card>
 </template>
@@ -58,10 +54,14 @@ export default {
   methods: {
     saveTask() {
       if (this.newTask.dueDate) {
-        this.newTask.dueDate = date.extractDate(
-          this.newTask.dueDate,
-          'DD/MM/YYYY'
-        );
+        // console.log('dueDate: ', this.newTask.dueDate);
+        // const formattedDate = moment(this.newTask.dueDate).format('llll');
+        // this.newTask.dueDate = formattedDate;
+        // this.newTask.dueDate = new Date(this.newTask.dueDate + 'T00:00:00');
+        // this.newTask.dueDate = date.extractDate(
+        //   this.newTask.dueDate,
+        //   'DD/MM/YYYY'
+        // );
       }
       //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
       if (this.settings.show12HourFormat) {
@@ -73,16 +73,21 @@ export default {
           'HH:mm'
         );
       }
-      this.$store.dispatch('editTask', this.newTask);
+      this.newTask.id = this.taskId;
+      this.$store.dispatch('tasks/updateTask', this.newTask);
       this.$emit('closeTaskForm');
     },
   },
   computed: {
-    ...mapGetters({
-      settings: 'settings',
-    }),
-    newDate() {
-      return this.$options.filters.displayDate(this.newTask.dueDate);
+    ...mapGetters('settings', ['settings']),
+
+    //TODO: Delete - not used
+    // newDate() {
+    //   return this.$options.filters.displayDate(this.newTask.dueDate);
+    // },
+    // TODO: delete (replaced by formatting date using moment in created()
+    taskDueDate() {
+      return moment(this.taskToEdit.dueDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
     },
   },
   filters: {
@@ -94,10 +99,19 @@ export default {
     },
   },
   created() {
+    //copy taskToEdit prop to new object
     this.newTask = Object.assign({}, this.taskToEdit);
-    this.newTask.dueDate = this.$options.filters.displayDate(
-      this.newTask.dueDate
+    this.newTask.dueDate = moment(this.taskToEdit.dueDate, 'DD/MM/YYYY').format(
+      'DD/MM/YYYY'
     );
+
+    //TODO: Delete
+    // this.$options.filters.displayDate(
+    // this.newTask.dueDate
+    // );
+  },
+  mounted() {
+    console.log('taskToEdit: ', this.taskToEdit);
   },
 };
 </script>

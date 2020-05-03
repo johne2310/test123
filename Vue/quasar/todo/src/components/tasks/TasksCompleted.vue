@@ -37,7 +37,7 @@ export default {
     'list-header': ListHeader,
   },
   computed: {
-    ...mapGetters(['settings']),
+    ...mapGetters('settings', ['settings']),
   },
 };
 </script>

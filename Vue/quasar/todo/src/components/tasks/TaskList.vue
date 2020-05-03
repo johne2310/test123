@@ -4,14 +4,14 @@
       <q-item
         v-ripple
         clickable
-        @click="updateTask(task)"
-        :class="!task.completed ? 'bg-grey-2' : 'bg-grey-3'"
+        @click="toggleCompleted"
+        :class="!newTask.completed ? 'bg-grey-2' : 'bg-grey-3'"
         v-touch-hold:1000.mouse="showEditForm"
       >
         <q-item-section avatar>
           <q-checkbox
             name="completed"
-            v-model="task.completed"
+            v-model="newTask.completed"
             class="no-pointer-events"
           />
         </q-item-section>
@@ -20,18 +20,18 @@
 
         <q-item-section>
           <q-item-label
-            :class="{ showCompleted: task.completed }"
-            v-html="$options.filters.searchHighlight(task.name, search)"
+            :class="{ showCompleted: newTask.completed }"
+            v-html="$options.filters.searchHighlight(newTask.name, search)"
           >
           </q-item-label>
         </q-item-section>
 
         <q-item-section side>
-          <q-item-label>{{ task.dueDate | longDate }}</q-item-label>
+          <q-item-label>{{ taskDueDate | longDate }}</q-item-label>
           <q-item-label>{{ taskDueTime }}</q-item-label>
         </q-item-section>
 
-        <q-item-section side v-if="task.dueDate">
+        <q-item-section side v-if="newTask.dueDate">
           <q-icon name="mdi-calendar-today" size="sm" left color="primary" />
           <q-icon name="mdi-alarm" size="sm" left color="info" />
         </q-item-section>
@@ -55,8 +55,8 @@
     <q-dialog v-model="showEditTaskForm" no-backdrop-dismiss>
       <show-edit-task
         @closeTaskForm="showEditTaskForm = false"
-        :taskId="task.id"
-        :taskToEdit="task"
+        :taskId="newTask.id"
+        :taskToEdit="newTask"
       ></show-edit-task>
     </q-dialog>
   </div>
@@ -75,16 +75,19 @@ export default {
   },
   data() {
     return {
+      newTask: {},
       showEditTaskForm: false,
     };
   },
   methods: {
-    ...mapActions({
-      updateTask: 'updateTask',
-      deleteTask: 'deleteTask',
-    }),
+    ...mapActions('tasks', ['updateTask', 'deleteTask']),
     showEditForm() {
       this.showEditTaskForm = true;
+    },
+    toggleCompleted() {
+      this.newTask.completed = !this.newTask.completed;
+      // noinspection JSValidateTypes
+      this.updateTask(this.newTask);
     },
     editTask() {
       this.showEditTaskForm = !this.showEditTaskForm;
@@ -103,8 +106,9 @@ export default {
     },
   },
   computed: {
-    ...mapState(['search']), //needs module to be namespaced to work
-    ...mapGetters(['settings', 'getSearch']),
+    ...mapState('tasks', ['search']), //needs module to be namespaced to work
+    ...mapGetters('settings', ['settings']),
+    ...mapGetters('tasks', ['getSearch']),
 
     search() {
       return this.getSearch;
@@ -116,12 +120,19 @@ export default {
         return this.task.dueTime;
       }
     },
+    taskDueDate() {
+      return moment(this.task.dueDate, 'DD/MM/YYYY').format('lll');
+    },
 
     getStatus: {
       get() {
         return this.$store.getters.tasksTodo;
       },
     },
+  },
+  created() {
+    this.newTask = Object.assign({}, this.task);
+    console.log('newTask: ', this.newTask);
   },
   filters: {
     longDate(value) {
@@ -140,4 +151,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.showCompleted {
+  text-decoration: line-through;
+}
+</style>

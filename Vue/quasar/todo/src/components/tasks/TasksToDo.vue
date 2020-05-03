@@ -11,8 +11,8 @@
           v-if="!settings.showOneList"
           key="list-header"
           bgColour="bg-primary"
-          >Active Tasks</list-header
-        >
+          >Active Tasks
+        </list-header>
         <!-- <q-list key="todo-list"> -->
         <task-list
           v-for="task in tasksTodo"
@@ -42,15 +42,16 @@ import { mapGetters } from 'vuex';
 import ListHeader from 'components/shared/ListHeader.vue';
 import TaskList from 'components/tasks/TaskList.vue';
 export default {
+  name: 'TasksToDo',
   props: ['tasksTodo', 'taskTotal'],
   components: {
     'task-list': TaskList,
     'list-header': ListHeader,
   },
   computed: {
-    ...mapGetters(['settings']),
+    ...mapGetters('settings', ['settings']),
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

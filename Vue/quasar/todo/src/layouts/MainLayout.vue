@@ -18,11 +18,20 @@
         </q-toolbar-title>
         <q-space />
         <q-btn
+          v-if="!isLoggedIn"
           :to="{ name: 'Login' }"
           flat
           color="white"
-          icon-right="mdi-account-circle-outline"
+          icon-right="mdi-login"
           label="Login"
+        />
+        <q-btn
+          v-if="isLoggedIn"
+          flat
+          color="white"
+          icon-right="mdi-logout"
+          label="Log Out"
+          @click="logoutUser"
         />
         <div></div>
       </q-toolbar>
@@ -71,6 +80,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'MainLayout',
@@ -97,6 +107,12 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    ...mapActions('users', ['logoutUser']),
+  },
+  computed: {
+    ...mapGetters('users', ['isLoggedIn']),
   },
 };
 </script>

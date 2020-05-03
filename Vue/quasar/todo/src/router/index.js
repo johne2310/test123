@@ -16,7 +16,7 @@ Vue.use(VueRouter);
 
 export default function(/* { store, ssrContext } */) {
   // noinspection UnnecessaryLocalVariableJS
-  const Router = new VueRouter({
+  const router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
 
@@ -27,5 +27,5 @@ export default function(/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE,
   });
 
-  return Router;
+  return router;
 }

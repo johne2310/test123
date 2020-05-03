@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate';
 import meetups from './meetups';
 import user from './user';
 import shared from './shared';
+import { vuexfireMutations } from 'vuexfire';
 
 Vue.use(Vuex);
 
@@ -19,4 +20,7 @@ export default new Vuex.Store({
       paths: ['meetups', 'user'],
     }),
   ],
+  mutations: {
+    ...vuexfireMutations,
+  },
 });

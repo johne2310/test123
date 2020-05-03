@@ -8,11 +8,14 @@
           </q-card-section>
           <q-card-section>
             <q-input v-model="email" filled type="email" hint="Email" />
-            <q-input ref="email" hint="email" v-model="email">
+
+               <q-input ref="email" hint="email" v-model="email">
               <template v-slot:prepend>
                 <q-icon name="email" color="primary" />
               </template>
             </q-input>
+
+
             <q-input
               ref="password"
               :type="showPassword ? 'text' : 'password'"

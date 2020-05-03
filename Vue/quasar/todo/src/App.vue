@@ -8,13 +8,14 @@
 import { mapActions } from 'vuex';
 export default {
   methods: {
-    ...mapActions(['loadSettings']),
+    ...mapActions('settings', ['loadSettings']),
+    ...mapActions('users', ['authStateChange']),
   },
   mounted() {
     this.loadSettings();
+    this.authStateChange();
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -27,12 +27,11 @@
         </div>
       </div>
       <div class="q-pl-xs text-grey-8">
-        <p v-if="tasksTodo.length < 1 && tasksCompleted.length < 1">
+        <p v-if="search && !tasksTodo.length && !tasksCompleted.length">
           No results found for this search
         </p>
       </div>
-
-      <q-scroll-area class="q-scroll-area-tasks">
+      <q-scroll-area class="q-scroll-area-tasks row">
         <!-- active list -->
         <tasks-todo
           class="q-mt-sm"
@@ -42,18 +41,18 @@
 
         <!-- completed todos -->
         <tasks-completed :tasksCompleted="tasksCompleted"></tasks-completed>
-
-        <!-- sticky button -->
-        <q-page-sticky position="bottom" :offset="[18, 18]">
-          <q-btn
-            round
-            size="24px"
-            icon="add"
-            color="primary"
-            @click="showTaskForm"
-          />
-        </q-page-sticky>
       </q-scroll-area>
+
+      <!-- sticky button -->
+      <q-page-sticky position="bottom" :offset="[18, 18]">
+        <q-btn
+          round
+          size="24px"
+          icon="add"
+          color="primary"
+          @click="showTaskForm"
+        />
+      </q-page-sticky>
     </div>
     <!-- add new task dialog -->
     <q-dialog v-model="showNewTaskForm" no-backdrop-dismiss>
@@ -79,6 +78,7 @@ export default {
   },
   data() {
     return {
+      dateFormat: '',
       loading: false,
       completed: false,
       showNewTaskForm: false,
@@ -97,7 +97,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setSortBy']),
+    ...mapActions('tasks', ['setSortBy', 'loadFirestore']),
 
     changeSort() {
       if (this.sortBy === 'name') {
@@ -117,8 +117,14 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['tasksTodo', 'tasksCompleted', 'getSortBy', 'settings']),
-    ...mapState(['sort']), //not state does not map when using modules without namespace
+    ...mapGetters('tasks', [
+      'tasksTodo',
+      'tasksCompleted',
+      'getSortBy',
+      'taskTotal',
+    ]),
+    ...mapGetters('settings', ['settings']),
+    ...mapState('tasks', ['sort', 'search']), //not state does not map when using modules without namespace
     sortBy: {
       get() {
         return this.getSortBy;
@@ -140,12 +146,14 @@ export default {
         this.newTask.dueTime != ''
       );
     },
-    taskTotal() {
-      return this.$store.getters.taskTotal;
-    },
+    // taskTotal() {
+    //   return this.$store.getters.taskTotal;
+    // },
   },
   mounted() {
-    this.$store.commit('setSortByName');
+    // this.loadFirestore();
+    this.$store.dispatch('tasks/bindTodos');
+    this.$store.commit('tasks/setSortByName');
   },
 };
 </script>
