@@ -23,13 +23,13 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(['setSearchValue']),
+    ...mapActions('tasks', ['setSearchValue']),
     selectAll(event) {
       event.target.select();
     },
   },
   computed: {
-    ...mapGetters(['getSearch']),
+    ...mapGetters('tasks', ['getSearch']),
     searchField: {
       get() {
         return this.getSearch;

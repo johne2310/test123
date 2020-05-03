@@ -1,4 +1,4 @@
-import { vuexfireMutations, firestoreAction } from 'vuexfire';
+import { firestoreAction } from 'vuexfire';
 import router from '../../router/index';
 import { meetupCollection } from '../../firebase';
 import 'firebase/auth';
@@ -8,7 +8,7 @@ export default {
     loadedMeetups: [],
   },
   mutations: {
-    ...vuexfireMutations,
+    // ...vuexfireMutations,
   },
   actions: {
     bindMeetups: firestoreAction(({ bindFirestoreRef }) => {

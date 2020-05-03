@@ -1,33 +1,40 @@
+import { firestoreAction } from 'vuexfire';
+import { todosCollection } from 'boot/firebase';
+
 export default {
+  namespaced: true,
   state: {
     tasks: [
-      {
-        id: 1,
-        name: 'Go to shop',
-        completed: true,
-        dueDate:
-          'Mon Apr 27 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
-        dueTime: '16.00',
-      },
-      {
-        id: 2,
-        name: 'Get bananas',
-        completed: false,
-        dueDate:
-          'Mon Apr 17 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
-        dueTime: '12.00',
-      },
-      {
-        id: 3,
-        name: 'Get apples',
-        completed: false,
-        dueDate:
-          'Mon Apr 20 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
-        dueTime: '08.00',
-      },
+      // {
+      //   id: 1,
+      //   name: 'Go to shop',
+      //   completed: true,
+      //   dueDate:
+      //     'Mon Apr 27 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
+      //   dueTime: '16.00',
+      // },
+      // {
+      //   id: 2,
+      //   name: 'Get bananas',
+      //   completed: false,
+      //   dueDate:
+      //     'Mon Apr 17 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
+      //   dueTime: '12.00',
+      // },
+      // {
+      //   id: 3,
+      //   name: 'Get apples',
+      //   completed: false,
+      //   dueDate:
+      //     'Mon Apr 20 2020 10:00:00 GMT+1000 (Australian Eastern Standard Time)',
+      //   dueTime: '08.00',
+      // },
     ],
     search: '',
     sort: 'name',
+    success: false,
+    error: null,
+    deleted: null,
   },
   mutations: {
     updateTask(state, payload) {
@@ -75,13 +82,73 @@ export default {
     setSortBy(state, value) {
       state.sort = value;
     },
+    loadFirestore(state, payload) {
+      console.log('loading data: ', payload);
+      state.tasks = [];
+      state.tasks = Object.assign(state.tasks, payload);
+    },
+    setError(state, value) {
+      state.error = value;
+    },
+    clearError(state) {
+      state.error = null;
+    },
+    setSuccess(state, value) {
+      state.success = value;
+    },
+    deleted(state, value) {
+      state.deleted = value;
+    },
   },
   actions: {
-    updateTask({ commit }, payload) {
-      commit('updateTask', payload);
+    bindTodos: firestoreAction(({ bindFirestoreRef, rootState }) => {
+      const user = rootState['users'].user;
+      return bindFirestoreRef(
+        'tasks',
+        todosCollection.doc(user).collection(user)
+      );
+    }),
+    updateTask({ commit, rootState }, payload) {
+      commit('clearError');
+      // get user id from user store
+      const user = rootState['users'].user;
+      const queryRef = todosCollection
+        .doc(user)
+        .collection(user)
+        .doc(payload.id);
+
+      queryRef
+        .update({
+          id: payload.id,
+          name: payload.name,
+          dueDate: payload.dueDate,
+          dueTime: payload.dueTime,
+          completed: payload.completed,
+        })
+        .then(() => {
+          // commit handled by VuexFire
+          commit('setSuccess', true);
+        })
+        .catch(error => {
+          commit('setError', error.message);
+        });
     },
-    deleteTask({ commit }, payload) {
-      commit('deleteTask', payload);
+    deleteTask({ commit, rootState }, taskId) {
+      console.log('deleting item: ', taskId);
+      const user = rootState['users'].user;
+      const queryRef = todosCollection
+        .doc(user)
+        .collection(user)
+        .doc(taskId);
+
+      queryRef
+        .delete()
+        .then(() => {
+          commit('deleted', true);
+        })
+        .catch(error => {
+          commit('setError', error.message);
+        });
     },
     addTask({ commit, state }, payload) {
       commit('addTask', payload);
@@ -91,9 +158,10 @@ export default {
         commit('setSortByDate');
       }
     },
-    editTask({ commit, state }, payload) {
-      commit('editTask', payload);
+    editTask({ commit, state, dispatch }, payload) {
+      // commit('editTask', payload);
       if (state.sort === 'name') {
+        dispatch('updateTask');
         commit('setSortByName');
       } else {
         commit('setSortByDate');
@@ -104,6 +172,27 @@ export default {
     },
     setSortBy({ commit }, value) {
       commit('setSortBy', value);
+    },
+    loadFirestore({ commit, rootState }) {
+      console.log('get data for user : ', rootState['users'].user);
+      const tasks = [];
+      todosCollection
+        .doc(rootState['users'].user)
+        .collection(rootState['users'].user)
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            const data = {
+              id: doc.id,
+              name: doc.data().name,
+              dueDate: doc.data().dueDate,
+              dueTime: doc.data().dueTime,
+              completed: doc.data().completed,
+            };
+            tasks.push(data);
+            commit('loadFirestore', tasks);
+          });
+        });
     },
   },
   getters: {
@@ -145,10 +234,10 @@ export default {
       );
     },
     getSortBy: state => {
-      return state.sort
+      return state.sort;
     },
     getSearch: state => {
-      return state.search
-    }
+      return state.search;
+    },
   },
 };

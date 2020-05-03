@@ -1,11 +1,13 @@
 import { LocalStorage } from 'quasar';
 
 export default {
+  namespaced: true,
   state: {
     settings: {
       show12HourFormat: false,
       showOneList: false,
     },
+    test: 'test123',
   },
   mutations: {
     setTimeFormat(state, value) {
@@ -14,9 +16,9 @@ export default {
     setListFormat(state, value) {
       state.settings.showOneList = value;
     },
-    saveSettings (state, settings) {
-      Object.assign(state.settings, settings)
-    }
+    saveSettings(state, settings) {
+      Object.assign(state.settings, settings);
+    },
   },
   actions: {
     setTimeFormat({ commit, dispatch }, value) {
@@ -30,12 +32,12 @@ export default {
     saveSettings({ state }) {
       LocalStorage.set('todoSettings', state.settings);
     },
-    loadSettings ({ commit }) {
+    loadSettings({ commit }) {
       const settings = LocalStorage.getItem('todoSettings');
       if (settings) {
-        commit('saveSettings', settings)
+        commit('saveSettings', settings);
       }
-    }
+    },
   },
   getters: {
     settings: state => {

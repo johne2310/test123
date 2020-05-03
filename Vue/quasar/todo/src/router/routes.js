@@ -1,3 +1,5 @@
+import AuthGuard from './auth-guard';
+
 const routes = [
   {
     path: '/',
@@ -7,16 +9,19 @@ const routes = [
         path: '/',
         name: 'Home',
         component: () => import('pages/PageTodo.vue'),
+        beforeEnter: AuthGuard,
       },
       {
         path: 'settings',
         name: 'Settings',
         component: () => import('pages/PageSettings.vue'),
+        beforeEnter: AuthGuard,
       },
       {
         path: 'settings/help',
         name: 'Help',
         component: () => import('pages/PageHelp.vue'),
+        beforeEnter: AuthGuard,
       },
       {
         path: 'login',

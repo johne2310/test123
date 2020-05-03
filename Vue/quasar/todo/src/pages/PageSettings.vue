@@ -71,10 +71,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions({
-      setTimeFormat: 'setTimeFormat',
-      setListFormat: 'setListFormat',
-    }),
+    ...mapActions('settings', ['setTimeFormat', 'setListFormat']),
     // toggleTimeFormat() {
     // this.timeFormat = !this.timeFormat;
     // },
@@ -87,7 +84,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['settings']),
+    // ...mapGetters(['settings']),
+    ...mapGetters('settings', ['settings']),
     show12HourFormat: {
       get() {
         return this.settings.show12HourFormat;
