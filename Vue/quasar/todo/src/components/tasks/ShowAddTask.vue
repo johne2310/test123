@@ -37,7 +37,6 @@
 import { mapGetters } from 'vuex';
 import moment from 'moment';
 import mixinAddEditTask from 'src/mixins/mixin-add-edit-task.js';
-import { date, uid } from 'quasar';
 import TaskHeader from 'components/tasks/TaskHeader.vue';
 import TaskName from 'components/tasks/TaskName.vue';
 import TaskDueDate from 'components/tasks/TaskDueDate.vue';
@@ -56,7 +55,7 @@ export default {
   data() {
     return {
       newTask: {
-        id: '',
+        // id: '',
         name: '',
         dueDate: '',
         dueTime: '',
@@ -67,14 +66,6 @@ export default {
   },
   methods: {
     addNewTask() {
-      this.newTask.id = uid();
-      if (this.newTask.dueDate) {
-        this.newTask.dueDate = date.extractDate(
-          this.newTask.dueDate,
-          'DD/MM/YYYY'
-        );
-      }
-      //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
       if (this.settings.show12HourFormat) {
         this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
           'HH:mm'
@@ -84,8 +75,11 @@ export default {
           'HH:mm'
         );
       }
-
-      this.$store.dispatch('tasks/addTask', this.newTask);
+      //use sortDate field to record UTC format date and use this for sorting array
+      this.newTask.sortDate = moment(this.newTask.dueDate, 'DD/MM/YYYY').format(
+        'X'
+      );
+      this.$store.dispatch('tasks/createTask', this.newTask);
       this.$emit('closeTaskForm');
     },
   },

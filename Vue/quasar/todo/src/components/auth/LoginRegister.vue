@@ -11,7 +11,7 @@
     >
       {{ error }}
       <template v-slot:action>
-        <q-btn flat label="Dismiss" @click="dismissAlert" k />
+        <q-btn flat label="Dismiss" @click="dismissAlert" />
       </template>
     </q-banner>
 
@@ -107,26 +107,23 @@ export default {
   methods: {
     ...mapActions('users', ['registerUser', 'loginUser']),
     dismissAlert() {
-      this.$store.commit('clearError');
+      this.$store.commit('users/setError', null);
     },
     submitUser() {
       if (this.tab === 'register') {
         this.$refs.form
           .validate()
           .then(() => {
-            console.log('Registering User: ', this.credentials);
             this.registerUser(this.credentials);
           })
-          .catch(error => console.log('Form validation failed: ', error));
+          .catch(error => {});
       } else {
         this.$refs.form
           .validate()
           .then(() => {
-            console.log('Logging in User: ', this.credentials);
             this.loginUser(this.credentials);
           })
-
-          .catch(error => console.log('Form validation failed: ', error));
+          .catch(error => {});
       }
     },
     setValid() {

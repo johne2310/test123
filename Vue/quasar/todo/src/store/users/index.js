@@ -1,18 +1,22 @@
 // import { usersCollection } from '../../boot/firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+// import { todosCollection } from 'boot/firebase';
 
 export default {
   namespaced: true,
   state: {
-    user: null,
+    user: {},
     error: null,
     loading: false,
     isLoggedIn: false,
   },
   mutations: {
     registerUser(state, payload) {
-      state.user = payload;
+      state.user = {
+        userId: payload.uid,
+        email: payload.email,
+      };
     },
     setLoading(state, payload) {
       state.loading = payload;
@@ -27,12 +31,13 @@ export default {
       state.isLoggedIn = value;
     },
     loginUser(state, payload) {
-      state.user = payload.uid;
-      // state.isLoggedIn = true;
+      state.user = {
+        userId: payload.uid,
+        email: payload.email,
+      };
     },
     logoutUser(state) {
-      state.user = null;
-      // state.isLoggedIn = false;
+      state.user = {};
     },
   },
 
@@ -40,24 +45,14 @@ export default {
     registerUser({ commit }, payload) {
       commit('setLoading', true);
       commit('clearError');
-      console.log('Register user: ', payload);
       firebase
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(cred => {
           commit('setLoading', false);
-          const newUser = {
-            userId: cred.user.uid,
-            todos: [],
-          };
-          commit('registerUser', newUser);
-          // router.push({ name: 'Home' });
+          commit('registerUser', cred.user);
         })
         .catch(error => {
-          console.log(
-            'An error has occurred registering the user: ',
-            error.message
-          );
           commit('setLoading', false);
           commit('setError', error.message);
         });
@@ -78,17 +73,23 @@ export default {
         });
     },
     logoutUser({ commit }) {
-      firebase.auth().signOut();
-      commit('logoutUser');
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          commit('tasks/setDataLoaded', false, { root: true });
+          commit('logoutUser');
+          commit('tasks/clearTodos', null, { root: true });
+        });
     },
-    authStateChange({ commit }) {
+    authStateChange({ commit, dispatch }) {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          console.log('user is logged in');
+          //call the bind action from tasks module to connect to firebase
+          dispatch('tasks/bindTodos', null, { root: true });
           commit('setLoggedIn', true);
           this.$router.push({ name: 'Home' }).catch(error => {});
         } else {
-          console.log('user is logged out');
           commit('setLoggedIn', false);
           this.$router.replace({ name: 'Login' }).catch(error => {});
         }

@@ -21,6 +21,8 @@
       <!-- Action buttons -->
       <TaskButtons :validTask="validTask"></TaskButtons>
     </q-form>
+
+    <pre>{{ newTask }}</pre>
   </q-card>
 </template>
 
@@ -53,16 +55,6 @@ export default {
   },
   methods: {
     saveTask() {
-      if (this.newTask.dueDate) {
-        // console.log('dueDate: ', this.newTask.dueDate);
-        // const formattedDate = moment(this.newTask.dueDate).format('llll');
-        // this.newTask.dueDate = formattedDate;
-        // this.newTask.dueDate = new Date(this.newTask.dueDate + 'T00:00:00');
-        // this.newTask.dueDate = date.extractDate(
-        //   this.newTask.dueDate,
-        //   'DD/MM/YYYY'
-        // );
-      }
       //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
       if (this.settings.show12HourFormat) {
         this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
@@ -73,6 +65,9 @@ export default {
           'HH:mm'
         );
       }
+      this.newTask.sortDate = moment(this.newTask.dueDate, 'DD/MM/YYYY').format(
+        'X'
+      );
       this.newTask.id = this.taskId;
       this.$store.dispatch('tasks/updateTask', this.newTask);
       this.$emit('closeTaskForm');
@@ -81,11 +76,6 @@ export default {
   computed: {
     ...mapGetters('settings', ['settings']),
 
-    //TODO: Delete - not used
-    // newDate() {
-    //   return this.$options.filters.displayDate(this.newTask.dueDate);
-    // },
-    // TODO: delete (replaced by formatting date using moment in created()
     taskDueDate() {
       return moment(this.taskToEdit.dueDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
     },
@@ -104,14 +94,6 @@ export default {
     this.newTask.dueDate = moment(this.taskToEdit.dueDate, 'DD/MM/YYYY').format(
       'DD/MM/YYYY'
     );
-
-    //TODO: Delete
-    // this.$options.filters.displayDate(
-    // this.newTask.dueDate
-    // );
-  },
-  mounted() {
-    console.log('taskToEdit: ', this.taskToEdit);
   },
 };
 </script>

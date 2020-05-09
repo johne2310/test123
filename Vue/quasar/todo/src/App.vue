@@ -12,6 +12,11 @@ export default {
     ...mapActions('users', ['authStateChange']),
   },
   mounted() {
+    if (this.$q.platform.is.electron) {
+      require('electron').ipcRenderer.on('show-settings', () => {
+        this.$router.push({ name: 'Settings' });
+      });
+    }
     this.loadSettings();
     this.authStateChange();
   },

@@ -52,7 +52,6 @@ export default {
           time: payload.time,
         })
         .then(() => {
-          commit('', payload);
           commit('success', true);
           router.push({ name: 'Meetup', params: { id: payload.id } });
         })

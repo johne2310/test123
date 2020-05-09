@@ -1,17 +1,17 @@
 <template>
   <div>
-    <q-list separator bordered>
+    <q-list bordered>
       <q-item
         v-ripple
         clickable
-        @click="toggleCompleted"
-        :class="!newTask.completed ? 'bg-grey-2' : 'bg-grey-3'"
+        @click="toggleCompleted(task)"
+        :class="!task.completed ? 'bg-grey-2' : 'bg-grey-3'"
         v-touch-hold:1000.mouse="showEditForm"
       >
         <q-item-section avatar>
           <q-checkbox
             name="completed"
-            v-model="newTask.completed"
+            v-model="task.completed"
             class="no-pointer-events"
           />
         </q-item-section>
@@ -20,8 +20,8 @@
 
         <q-item-section>
           <q-item-label
-            :class="{ showCompleted: newTask.completed }"
-            v-html="$options.filters.searchHighlight(newTask.name, search)"
+            :class="{ showCompleted: task.completed }"
+            v-html="$options.filters.searchHighlight(task.name, search)"
           >
           </q-item-label>
         </q-item-section>
@@ -31,7 +31,7 @@
           <q-item-label>{{ taskDueTime }}</q-item-label>
         </q-item-section>
 
-        <q-item-section side v-if="newTask.dueDate">
+        <q-item-section side v-if="task.dueDate">
           <q-icon name="mdi-calendar-today" size="sm" left color="primary" />
           <q-icon name="mdi-alarm" size="sm" left color="info" />
         </q-item-section>
@@ -55,8 +55,8 @@
     <q-dialog v-model="showEditTaskForm" no-backdrop-dismiss>
       <show-edit-task
         @closeTaskForm="showEditTaskForm = false"
-        :taskId="newTask.id"
-        :taskToEdit="newTask"
+        :taskId="task.id"
+        :taskToEdit="task"
       ></show-edit-task>
     </q-dialog>
   </div>
@@ -84,10 +84,18 @@ export default {
     showEditForm() {
       this.showEditTaskForm = true;
     },
-    toggleCompleted() {
-      this.newTask.completed = !this.newTask.completed;
+    toggleCompleted(task) {
+      this.task.sortDate = moment(this.task.dueDate, 'DD/MM/YYYY').format('X');
+      const changedTask = {
+        id: task.id,
+        name: task.name,
+        dueDate: task.dueDate,
+        dueTime: task.dueTime,
+        completed: !task.completed,
+        sortDate: task.sortDate,
+      };
       // noinspection JSValidateTypes
-      this.updateTask(this.newTask);
+      this.updateTask(changedTask);
     },
     editTask() {
       this.showEditTaskForm = !this.showEditTaskForm;
@@ -123,16 +131,6 @@ export default {
     taskDueDate() {
       return moment(this.task.dueDate, 'DD/MM/YYYY').format('lll');
     },
-
-    getStatus: {
-      get() {
-        return this.$store.getters.tasksTodo;
-      },
-    },
-  },
-  created() {
-    this.newTask = Object.assign({}, this.task);
-    console.log('newTask: ', this.newTask);
   },
   filters: {
     longDate(value) {

@@ -15,6 +15,7 @@
     <v-row>
       <v-col cols="12">
         <v-carousel>
+          <!--suppress HtmlUnknownTarget -->
           <v-carousel-item
             v-for="meetup in featuredMeetups"
             :key="meetup.id"

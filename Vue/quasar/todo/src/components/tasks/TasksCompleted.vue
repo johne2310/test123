@@ -14,7 +14,6 @@
         bgColour="bg-grey"
         >Completed Tasks</list-header
       >
-      <!-- <q-list key="todo-list" bordered separator> -->
       <tasks-todo
         v-for="task in tasksCompleted"
         :key="task.id"

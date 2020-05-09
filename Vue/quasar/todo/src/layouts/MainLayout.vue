@@ -13,10 +13,11 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         /> -->
 
-        <q-toolbar-title class="absolute-center">
+        <q-toolbar-title class="left">
           Awesome Todo
         </q-toolbar-title>
         <q-space />
+
         <q-btn
           v-if="!isLoggedIn"
           :to="{ name: 'Login' }"
@@ -25,14 +26,17 @@
           icon-right="mdi-login"
           label="Login"
         />
-        <q-btn
-          v-if="isLoggedIn"
-          flat
-          color="white"
-          icon-right="mdi-logout"
-          label="Log Out"
-          @click="logoutUser"
-        />
+        <div v-if="isLoggedIn">
+          <q-btn
+            flat
+            color="white"
+            icon-right="mdi-logout"
+            label="Log Out"
+            @click="logoutUser"
+          />
+          {{ user.email }}
+        </div>
+
         <div></div>
       </q-toolbar>
     </q-header>
@@ -69,10 +73,25 @@
           :key="link.title"
           v-bind="link"
         />
+
+        <!--        SHow quit button if an electron app-->
+        <q-item
+          clickable
+          v-if="this.$q.platform.is.electron"
+          class="text-blue-grey-8 absolute-bottom"
+          @click="quitApp"
+        >
+          <q-item-section avatar>
+            <q-icon name="mdi-power" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-blue-grey-8">Quit</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-white">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -110,9 +129,15 @@ export default {
   },
   methods: {
     ...mapActions('users', ['logoutUser']),
+    quitApp() {
+      // await this.logoutUser();
+      if (this.$q.platform.is.electron) {
+        require('electron').ipcRenderer.send('quit-app');
+      }
+    },
   },
   computed: {
-    ...mapGetters('users', ['isLoggedIn']),
+    ...mapGetters('users', ['isLoggedIn', 'user']),
   },
 };
 </script>

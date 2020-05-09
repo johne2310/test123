@@ -13,7 +13,6 @@
           bgColour="bg-primary"
           >Active Tasks
         </list-header>
-        <!-- <q-list key="todo-list"> -->
         <task-list
           v-for="task in tasksTodo"
           :key="task.id"

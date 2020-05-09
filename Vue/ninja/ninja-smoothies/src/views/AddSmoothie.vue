@@ -87,15 +87,15 @@ export default {
   methods: {
     async addSmoothie() {
       //run function to create new doc and get Id to add to document object. function is asynchronous so need to use async/await
-      if (this.title === '') {
+      if (this.smoothie.title === '') {
         this.isTitle = true;
         return;
       }
 
       await this.getDocId();
-      //set newSmoothie objct
+      //set newSmoothie object
       this.newSmoothie = {
-        title: this.title,
+        title: this.smoothie.title,
         ingredients: this.ingredients,
         createdAt: new Date(),
         id: this.id,

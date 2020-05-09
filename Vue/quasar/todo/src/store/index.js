@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate';
 import tasks from './tasks';
 import settings from './settings';
 import users from './users';
+
 import { vuexfireMutations } from 'vuexfire';
 
 Vue.use(Vuex);
