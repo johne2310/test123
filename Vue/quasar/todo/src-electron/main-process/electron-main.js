@@ -1,10 +1,12 @@
-import { app, BrowserWindow, nativeTheme, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, nativeTheme } from 'electron';
 import { menuTemplate } from './electron-menu-template';
+
+const path = require('path');
 
 try {
   if (
     process.platform === 'win32' &&
-    nativeTheme.shouldUseDarkColors === true
+    nativeTheme.shouldUseDarkColors === false
   ) {
     require('fs').unlinkSync(
       require('path').join(app.getPath('userData'), 'DevTools Extensions')
@@ -47,10 +49,9 @@ app.on('ready', () => {
       nodeIntegration: QUASAR_NODE_INTEGRATION,
       nodeIntegrationInWorker: QUASAR_NODE_INTEGRATION,
 
-      preload: 'src-electron/main-process/electron-preload.js',
-
+      //use preload to access ipcRenderer in App.vue
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
-      // preload: path.resolve(__dirname, 'electron-preload.js')
+      preload: path.resolve(__dirname, 'electron-preload.js'),
     },
   });
 

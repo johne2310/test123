@@ -1,5 +1,6 @@
 <template>
   <q-input
+    sanitize
     autofocus
     @focus="$event.target.select()"
     :value="taskName"

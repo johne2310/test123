@@ -1,6 +1,6 @@
 <template>
   <q-input
-    class="q-pb-sm"
+    class="q-pb-sm col"
     v-model="searchField"
     @keyup.esc="searchField = ''"
     debounce="500"
@@ -17,18 +17,19 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-export default {
-  data() {
-    return {};
-  },
-  methods: {
-    ...mapActions('tasks', ['setSearchValue']),
-    selectAll(event) {
-      event.target.select();
+  import { mapActions, mapGetters } from 'vuex';
+
+  export default {
+    data() {
+      return {};
     },
-  },
-  computed: {
+    methods: {
+      ...mapActions('tasks', ['setSearchValue']),
+      selectAll(event) {
+        event.target.select();
+      },
+    },
+    computed: {
     ...mapGetters('tasks', ['getSearch']),
     searchField: {
       get() {

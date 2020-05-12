@@ -1,56 +1,45 @@
 <!--suppress ALL -->
 <template>
-  <div>
-    <div v-if="taskTotal">
-      <transition-group
-        appear
-        enter-active-class="animated zoomIn"
-        leave-active-class="animated zoomOut"
-      >
-        <list-header
-          v-if="!settings.showOneList"
-          key="list-header"
-          bgColour="bg-primary"
-          >Active Tasks
-        </list-header>
+  <transition
+    appear
+    enter-active-class="animated zoomIn"
+    leave-active-class="animated zoomOut absolute top"
+  >
+    <div>
+      <list-header
+        v-if="!settings.showOneList"
+        key="list-header"
+        bgColour="bg-primary"
+      >Active Tasks
+      </list-header>
+
+      <q-list>
         <task-list
           v-for="task in tasksTodo"
           :key="task.id"
           :task="task"
         ></task-list>
-        <!-- </q-list> -->
-      </transition-group>
+      </q-list>
     </div>
-    <div v-else>
-      <transition
-        appear
-        enter-active-class="animated zoomIn"
-        leave-active-class="animated fadeOut"
-      >
-        <q-banner class="bg-blue-2 text-blue-grey-14 text-center">
-          <q-icon name="mdi-check-circle-outline" style="font-size: 2em;" />
-          Well done. You have completed all your tasks!
-        </q-banner>
-      </transition>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ListHeader from 'components/shared/ListHeader.vue';
-import TaskList from 'components/tasks/TaskList.vue';
-export default {
-  name: 'TasksToDo',
-  props: ['tasksTodo', 'taskTotal'],
-  components: {
-    'task-list': TaskList,
-    'list-header': ListHeader,
-  },
-  computed: {
+  import { mapGetters } from 'vuex';
+  import ListHeader from 'components/shared/ListHeader.vue';
+  import TaskList from 'components/tasks/TaskList.vue';
+  // import NoTasks from 'components/tasks/NoTasks';
+
+  export default {
+    name: 'TasksToDo',
+    props: ['tasksTodo', 'taskTotal'],
+    components: {
+      // NoTasks,
+      'task-list': TaskList,
+      'list-header': ListHeader,
+    },
+    computed: {
     ...mapGetters('settings', ['settings']),
   },
 };
 </script>
-
-<style scoped></style>

@@ -5,18 +5,19 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-export default {
-  methods: {
-    ...mapActions('settings', ['loadSettings']),
-    ...mapActions('users', ['authStateChange']),
-  },
-  mounted() {
-    if (this.$q.platform.is.electron) {
-      require('electron').ipcRenderer.on('show-settings', () => {
-        this.$router.push({ name: 'Settings' });
-      });
-    }
+  import { mapActions } from 'vuex';
+
+  export default {
+    methods: {
+      ...mapActions('settings', ['loadSettings']),
+      ...mapActions('users', ['authStateChange']),
+    },
+    mounted() {
+      if ( this.$q.platform.is.electron ) {
+        window.ipcRenderer.on('show-settings', () => {
+          this.$router.push({ name: 'Settings' });
+        });
+      }
     this.loadSettings();
     this.authStateChange();
   },

@@ -3,13 +3,23 @@
   <head>
     <title><%= htmlWebpackPlugin.options.productName %></title>
 
-<!--    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'none'">-->
+    <!--    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'none'">-->
 
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'self'">
     <meta name="description" content="<%= htmlWebpackPlugin.options.productDescription %>">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="awsTodo">
+    <meta name="viewport"
+          content="viewport-fit=cover, user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">-->
 
     <link rel="icon" type="image/png" href="statics/icons/icon-128x128.png">
     <link rel="icon" type="image/png" sizes="16x16" href="statics/icons/favicon-16x16.png">
@@ -21,6 +31,19 @@
     <link rel="icon" type="image/png" sizes="512x512" href="statics/icons/icon-512x512.png">
 
     <link rel="apple-touch-icon" type="image/png" sizes="152x152" href="statics/icons/apple-icon-152x152.png">
+
+    <style>
+      body, html {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      body {
+        background-color: whitesmoke;
+      }
+    </style>
   </head>
   <body>
     <!-- DO NOT touch the following DIV -->

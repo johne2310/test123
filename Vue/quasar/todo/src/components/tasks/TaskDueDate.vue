@@ -11,6 +11,7 @@
       <q-icon name="event" class="cursor-pointer" color="primary">
         <q-popup-proxy transition-show="scale" transition-hide="scale">
           <q-date
+            sanitize
             :value="taskDueDate"
             mask="DD/MM/YYYY"
             :options="dateOptions"

@@ -12,6 +12,7 @@
       <q-icon name="mdi-clock-outline" class="cursor-pointer" color="primary">
         <q-popup-proxy transition-show="scale" transition-hide="scale">
           <q-time
+            sanitize
             :value="taskDueTime"
             @input="$emit('update:taskDueTime', $event)"
             :mask="timeFormat"
@@ -28,18 +29,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-export default {
-  props: ['taskDueTime', 'isDateSet'],
-  data() {
-    return {
-      // timeFormat: 'hh:mma',
-    };
-  },
-  computed: {
-    ...mapGetters('settings', ['settings']),
-    timeFormat() {
-      //set the q-time mask based on settings
+  import { mapGetters } from 'vuex';
+
+  export default {
+    props: ['taskDueTime', 'isDateSet'],
+    data() {
+      return {
+        // timeFormat: 'hh:mma',
+      };
+    },
+    computed: {
+      ...mapGetters('settings', ['settings']),
+      timeFormat() {
+        //set the q-time mask based on settings
       if (this.settings.show12HourFormat) {
         return 'hh:mma';
       } else {

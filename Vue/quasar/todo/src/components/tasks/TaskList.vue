@@ -20,6 +20,7 @@
 
         <q-item-section>
           <q-item-label
+            class="lhs"
             :class="{ showCompleted: task.completed }"
             v-html="$options.filters.searchHighlight(task.name, search)"
           >
@@ -27,24 +28,47 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-item-label>{{ taskDueDate | longDate }}</q-item-label>
+          <!--
+          using class lt-sm makes component appear only for screens < sm
+          -->
+          <q-item-label class="lt-sm rhs"
+          >{{ taskDueDate | shortDate }}
+          </q-item-label>
+          <q-item-label class="gt-xs rhs"
+          >{{ taskDueDate | longDate }}
+          </q-item-label>
           <q-item-label>{{ taskDueTime }}</q-item-label>
         </q-item-section>
 
-        <q-item-section side v-if="task.dueDate">
-          <q-icon name="mdi-calendar-today" size="sm" left color="primary" />
-          <q-icon name="mdi-alarm" size="sm" left color="info" />
+        <!--
+            Only show section if screen size > xs
+            Then format icon
+         -->
+        <q-item-section class="gt-xs" side v-if="task.dueDate">
+          <q-icon name="mdi-calendar-today" size="sm" left color="primary"/>
+          <q-icon name="mdi-alarm" size="sm" left color="info"/>
         </q-item-section>
 
-        <q-separator vertical spaced />
+        <q-separator vertical spaced/>
+
+        <!--
+        Format button size usng computed value to get screen size
+        -->
         <q-item-section side>
-          <q-btn round color="primary" icon="post_add" @click.stop="editTask" />
+          <q-btn
+            round
+            color="primary"
+            :size="btnSize"
+            icon="post_add"
+            @click.stop="editTask"
+          />
         </q-item-section>
         <q-item-section side>
           <q-btn
             round
             color="red"
             icon="delete_outline"
+            :size="btnSize"
             @click.stop="deleteSelectedTask(task.id)"
           />
         </q-item-section>
@@ -63,33 +87,99 @@
 </template>
 
 <script>
-import { date } from 'quasar';
-import moment from 'moment';
+  import { date } from 'quasar';
+  import moment from 'moment';
 
-import { mapState, mapActions, mapGetters } from 'vuex';
-import ShowEditTask from 'components/tasks/ShowEditTask.vue';
-export default {
-  props: ['task'],
-  components: {
-    'show-edit-task': ShowEditTask,
-  },
-  data() {
-    return {
-      newTask: {},
-      showEditTaskForm: false,
-    };
-  },
-  methods: {
-    ...mapActions('tasks', ['updateTask', 'deleteTask']),
-    showEditForm() {
-      this.showEditTaskForm = true;
+  import { mapActions, mapGetters, mapState } from 'vuex';
+  import ShowEditTask from 'components/tasks/ShowEditTask.vue';
+
+  export default {
+    components: {
+      'show-edit-task': ShowEditTask,
     },
-    toggleCompleted(task) {
-      this.task.sortDate = moment(this.task.dueDate, 'DD/MM/YYYY').format('X');
-      const changedTask = {
-        id: task.id,
-        name: task.name,
-        dueDate: task.dueDate,
+    filters: {
+      longDate(value) {
+        return date.formatDate(value, 'ddd, D MMM YYYY');
+      },
+      shortDate(value) {
+        return date.formatDate(value, 'DD/MM/YYYY');
+      },
+      searchHighlight(value, search) {
+        if ( search ) {
+          const searchRegExp = new RegExp(search, 'ig');
+          return value.replace(searchRegExp, match => {
+            return '<span class="bg-light-blue-3">' + match + '</span>';
+          });
+        }
+        return value;
+      },
+    },
+    props: ['task'],
+    data() {
+      return {
+        newTask: {},
+        showEditTaskForm: false,
+      };
+    },
+    computed: {
+      ...mapState('tasks', ['search']), //needs module to be namespaced to work
+      ...mapGetters('settings', ['settings']),
+      ...mapGetters('tasks', ['getSearch']),
+
+      btnSize() {
+        if ( this.$q.screen.xs ) {
+          return 'sm';
+        } else {
+          return 'md';
+        }
+      },
+      search() {
+        return this.getSearch;
+      },
+      taskDueDate() {
+        return moment(this.task.dueDate, 'DD/MM/YYYY').format('ll');
+      },
+      taskDueTime() {
+        if ( this.settings.show12HourFormat ) {
+          return moment(this.task.dueTime, 'HH:mm').format('LT');
+        } else {
+          return this.task.dueTime;
+        }
+      },
+    },
+    methods: {
+      deleteSelectedTask(id) {
+        this.$q
+          .dialog({
+            title: 'Confirm',
+            message: 'Would you like to delete this task?',
+            persistent: true,
+            ok: {
+              color: 'primary',
+              push: true,
+            },
+            cancel: {
+              color: 'negative',
+              push: true,
+            },
+          })
+          .onOk(() => {
+            this.deleteTask(id);
+          });
+      },
+      editTask() {
+        this.showEditTaskForm = !this.showEditTaskForm;
+      },
+      ...mapActions('tasks', ['updateTask', 'deleteTask']),
+      showEditForm() {
+        this.showEditTaskForm = true;
+      },
+      toggleCompleted(task) {
+        this.task.sortDate = moment(this.task.dueDate, 'DD/MM/YYYY').format('X');
+        const changedTask = {
+          id: task.id,
+          name: task.name,
+          dueDate: task.dueDate,
         dueTime: task.dueTime,
         completed: !task.completed,
         sortDate: task.sortDate,
@@ -97,60 +187,20 @@ export default {
       // noinspection JSValidateTypes
       this.updateTask(changedTask);
     },
-    editTask() {
-      this.showEditTaskForm = !this.showEditTaskForm;
-    },
-    deleteSelectedTask(id) {
-      this.$q
-        .dialog({
-          title: 'Confirm',
-          message: 'Would you like to delete this task?',
-          cancel: true,
-          persistent: true,
-        })
-        .onOk(() => {
-          this.deleteTask(id);
-        });
-    },
-  },
-  computed: {
-    ...mapState('tasks', ['search']), //needs module to be namespaced to work
-    ...mapGetters('settings', ['settings']),
-    ...mapGetters('tasks', ['getSearch']),
-
-    search() {
-      return this.getSearch;
-    },
-    taskDueTime() {
-      if (this.settings.show12HourFormat) {
-        return moment(this.task.dueTime, 'HH:mm').format('LT');
-      } else {
-        return this.task.dueTime;
-      }
-    },
-    taskDueDate() {
-      return moment(this.task.dueDate, 'DD/MM/YYYY').format('lll');
-    },
-  },
-  filters: {
-    longDate(value) {
-      return date.formatDate(value, 'ddd, D MMM YYYY');
-    },
-    searchHighlight(value, search) {
-      if (search) {
-        const searchRegExp = new RegExp(search, 'ig');
-        return value.replace(searchRegExp, match => {
-          return '<span class="bg-light-blue-3">' + match + '</span>';
-        });
-      }
-      return value;
-    },
   },
 };
 </script>
 
 <style scoped>
-.showCompleted {
-  text-decoration: line-through;
-}
+  .showCompleted {
+    text-decoration: line-through;
+  }
+
+  .rhs {
+    text-align: right;
+  }
+
+  .lhs {
+    text-align: left;
+  }
 </style>

@@ -31,6 +31,7 @@
 
       <div class="row q-mb-sm">
         <q-input
+          sanitize
           ref="email"
           v-model.trim="credentials.email"
           class="col"
@@ -46,6 +47,7 @@
 
       <div class="row q-mb-sm">
         <q-input
+          sanitize
           ref="password"
           class="col"
           outlined
@@ -80,18 +82,19 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-export default {
-  props: ['tab'],
-  data() {
-    return {
-      valid: false,
-      showPassword: false,
-      mounted: false,
-      credentials: {
-        email: '',
-        password: '',
-      },
+  import { mapActions, mapGetters } from 'vuex';
+
+  export default {
+    props: ['tab'],
+    data() {
+      return {
+        valid: false,
+        showPassword: false,
+        mounted: false,
+        credentials: {
+          email: '',
+          password: '',
+        },
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       rules: {
         required: val => !!val || 'Enter a valid email address',

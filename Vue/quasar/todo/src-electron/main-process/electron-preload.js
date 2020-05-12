@@ -1,6 +1,3 @@
-import fs from 'fs';
-
-import electron from 'electron';
-
-window.electron = electron;
-window.electron = fs;
+// window.electron = require('electron');
+// window.electron = require('fs');
+window.ipcRenderer = require('electron').ipcRenderer;

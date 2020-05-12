@@ -13,7 +13,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         /> -->
 
-        <q-toolbar-title class="left">
+        <q-toolbar-title class="absolute-center">
           Awesome Todo
         </q-toolbar-title>
         <q-space />
@@ -31,10 +31,9 @@
             flat
             color="white"
             icon-right="mdi-logout"
-            label="Log Out"
+            :label="label"
             @click="logoutUser"
           />
-          {{ user.email }}
         </div>
 
         <div></div>
@@ -90,28 +89,27 @@
         </q-item>
       </q-list>
     </q-drawer>
-
-    <q-page-container class="bg-white">
-      <router-view />
+    <q-page-container>
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink';
-import { mapGetters, mapActions } from 'vuex';
+  import EssentialLink from 'components/EssentialLink';
+  import { mapActions, mapGetters } from 'vuex';
 
-export default {
-  name: 'MainLayout',
+  export default {
+    name: 'MainLayout',
 
-  components: {
-    EssentialLink,
-  },
+    components: {
+      EssentialLink,
+    },
 
-  data() {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: [
+    data() {
+      return {
+        leftDrawerOpen: false,
+        essentialLinks: [
         {
           title: 'Todos',
           caption: 'View Todos',
@@ -130,25 +128,36 @@ export default {
   methods: {
     ...mapActions('users', ['logoutUser']),
     quitApp() {
-      // await this.logoutUser();
       if (this.$q.platform.is.electron) {
-        require('electron').ipcRenderer.send('quit-app');
+        window.ipcRenderer.send('quit-app');
       }
     },
   },
   computed: {
     ...mapGetters('users', ['isLoggedIn', 'user']),
+    label() {
+      if ( this.$q.screen.xs ) {
+        return '';
+      } else {
+        return 'Log out';
+      }
+    },
   },
 };
 </script>
 
-<style scoped>
-@media screen and (min-width: 768px) {
-  .q-footer {
-    display: none;
+<style lang="scss" scoped>
+  @media screen and (min-width: 768px) {
+    .q-footer {
+      display: none;
+    }
   }
-}
-.q-drawer .q-router-link--exact-active {
-  color: rgb(13, 6, 56) !important;
-}
+
+  /*.q-footer {*/
+  /*  z-index: 1;*/
+  /*}*/
+
+  .q-drawer .q-router-link--exact-active {
+    color: rgb(13, 6, 56) !important;
+  }
 </style>

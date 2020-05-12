@@ -30,6 +30,11 @@ module.exports = function(ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
+      config: {
+        screen: {
+          bodyClasses: true, // <<< add this
+        },
+      },
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us', // Quasar language pack
 
@@ -55,6 +60,9 @@ module.exports = function(ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+      devtool: 'source-map',
+      // devtool: 'cheap-source-map',
+      // devtool: 'inline-source-map',
 
       // rtl: false, // https://quasar.dev/options/rtl-support
       // showProgress: false,
@@ -170,7 +178,7 @@ module.exports = function(ctx) {
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-      nodeIntegration: true,
+      nodeIntegration: false,
 
       extendWebpack(cfg) {
         // do something with Electron main process Webpack cfg
