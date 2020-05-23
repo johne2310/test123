@@ -106,26 +106,27 @@
             val.length >= 6 || 'Password must contain six characters',
         },
       };
-  },
-
-  methods: {
-    ...mapActions('users', ['registerUser', 'loginUser']),
-    dismissAlert() {
-      this.$store.commit('users/setError', null);
     },
-    submitUser() {
-      if (this.tab === 'register') {
-        this.$refs.form
-          .validate()
-          .then(() => {
-            this.registerUser(this.credentials);
-          })
-          .catch(error => {});
-      } else {
-        this.$refs.form
-          .validate()
-          .then(() => {
-            this.loginUser(this.credentials);
+
+    methods: {
+      ...mapActions('users', ['registerUser', 'loginUser']),
+      dismissAlert() {
+        this.$store.commit('users/setError', null);
+      },
+      submitUser() {
+        if ( this.tab === 'register' ) {
+          this.$refs.form
+            .validate()
+            .then(() => {
+              this.registerUser(this.credentials);
+            })
+            .catch(error => {
+            });
+        } else {
+          this.$refs.form
+            .validate()
+            .then(() => {
+              this.loginUser(this.credentials);
           })
           .catch(error => {});
       }

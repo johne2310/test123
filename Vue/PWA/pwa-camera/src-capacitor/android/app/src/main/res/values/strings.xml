@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pwa-camera</string>
+    <string name="title_activity_main">pwa-camera</string>
+    <string name="package_name">com.day41.pwacamera</string>
+    <string name="custom_url_scheme">com.day41.pwacamera</string>
+</resources>

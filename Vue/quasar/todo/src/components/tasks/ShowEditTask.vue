@@ -46,26 +46,26 @@
       TaskButtons,
     },
     data() {
-    return {
-      newTask: {},
-      today: '',
-    };
-  },
-  methods: {
-    saveTask() {
-      //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
-      if (this.settings.show12HourFormat) {
-        this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
-          'HH:mm'
+      return {
+        newTask: {},
+        today: '',
+      };
+    },
+    methods: {
+      saveTask() {
+        //convert 12 hour format to 24 hour format for saving. This ensure toggle 12-24 mode will work
+        if ( this.settings.show12HourFormat ) {
+          this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
+            'HH:mm'
+          );
+        } else {
+          this.newTask.dueTime = moment(this.newTask.dueTime, 'HH:mm').format(
+            'HH:mm'
+          );
+        }
+        this.newTask.sortDate = moment(this.newTask.dueDate, 'DD/MM/YYYY').format(
+          'X'
         );
-      } else {
-        this.newTask.dueTime = moment(this.newTask.dueTime, 'HH:mm').format(
-          'HH:mm'
-        );
-      }
-      this.newTask.sortDate = moment(this.newTask.dueDate, 'DD/MM/YYYY').format(
-        'X'
-      );
       this.newTask.id = this.taskId;
       this.$store.dispatch('tasks/updateTask', this.newTask);
       this.$emit('closeTaskForm');

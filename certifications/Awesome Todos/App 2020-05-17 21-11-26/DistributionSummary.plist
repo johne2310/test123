@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>App.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>6CA3FCB57B08ADCC3285785C38455A5D3E86F9C3</string>
+				<key>dateExpires</key>
+				<string>17/5/21</string>
+				<key>type</key>
+				<string>Apple Development</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>6CA3FCB57B08ADCC3285785C38455A5D3E86F9C3</string>
+						<key>dateExpires</key>
+						<string>17/5/21</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>Capacitor.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>29Z664JJLW</string>
+						<key>name</key>
+						<string>John Evans</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>6CA3FCB57B08ADCC3285785C38455A5D3E86F9C3</string>
+						<key>dateExpires</key>
+						<string>17/5/21</string>
+						<key>type</key>
+						<string>Apple Development</string>
+					</dict>
+					<key>name</key>
+					<string>Cordova.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>29Z664JJLW</string>
+						<key>name</key>
+						<string>John Evans</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>29Z664JJLW.day41.apps.todo</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>29Z664JJLW</string>
+				<key>get-task-allow</key>
+				<true/>
+			</dict>
+			<key>name</key>
+			<string>App.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>70361a15-7cd7-49d9-a0bf-53027d875835</string>
+				<key>name</key>
+				<string>iOS Team Provisioning Profile: day41.apps.todo</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>29Z664JJLW</string>
+				<key>name</key>
+				<string>John Evans</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

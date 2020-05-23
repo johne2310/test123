@@ -81,35 +81,35 @@
       ...mapActions('settings', ['setTimeFormat', 'setListFormat']),
       // toggleTimeFormat() {
       // this.timeFormat = !this.timeFormat;
-    // },
-    visitWebsite() {
-      openURL('http://www.day41.com.au');
-    },
-    sendEmail() {
-      window.location.href =
-        'mailto:johne2310@gmail.com?subject=Awesome Todo Feedback';
-    },
-  },
-  computed: {
-    // ...mapGetters(['settings']),
-    ...mapGetters('settings', ['settings']),
-    show12HourFormat: {
-      get() {
-        return this.settings.show12HourFormat;
+      // },
+      visitWebsite() {
+        openURL('http://www.day41.com.au');
       },
-      set(value) {
-        this.setTimeFormat(value);
+      sendEmail() {
+        window.location.href =
+          'mailto:johne2310@gmail.com?subject=Awesome Todo Feedback';
       },
     },
-    showOneList: {
-      get() {
-        return this.settings.showOneList;
+    computed: {
+      // ...mapGetters(['settings']),
+      ...mapGetters('settings', ['settings']),
+      show12HourFormat: {
+        get() {
+          return this.settings.show12HourFormat;
+        },
+        set(value) {
+          this.setTimeFormat(value);
+        },
       },
-      set(value) {
-        this.setListFormat(value);
+      showOneList: {
+        get() {
+          return this.settings.showOneList;
+        },
+        set(value) {
+          this.setListFormat(value);
+        },
       },
     },
-  },
   };
 </script>
 

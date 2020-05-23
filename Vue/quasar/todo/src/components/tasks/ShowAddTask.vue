@@ -64,37 +64,37 @@
         },
         test: '',
       };
-  },
-  methods: {
-    checkName() {
-      return this.$refs.name.validateName();
     },
-    checkDueDate() {
-      return this.$refs.dueDate.validateDate();
-      // console.log('checkDueDate: ', this.$refs.dueDate.validateDate());
-    },
-    checkDueTime() {
-      return this.$refs.dueTime.validateTime();
-    },
+    methods: {
+      checkName() {
+        return this.$refs.name.validateName();
+      },
+      checkDueDate() {
+        return this.$refs.dueDate.validateDate();
+        // console.log('checkDueDate: ', this.$refs.dueDate.validateDate());
+      },
+      checkDueTime() {
+        return this.$refs.dueTime.validateTime();
+      },
 
-    addNewTask() {
-      // call the input validate function to trigger error messages of the form
-      this.checkName();
-      this.checkDueTime();
-      this.checkDueDate();
-      // if all validations return true then process save
-      if ( this.checkName() && this.checkDueDate() && this.checkDueTime() ) {
-        if ( this.settings.show12HourFormat ) {
-          this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
-            'HH:mm'
-          );
-        } else {
-          this.newTask.dueTime = moment(this.newTask.dueTime, 'HH:mm').format(
-            'HH:mm'
-          );
-        }
-        //use sortDate field to record UTC format date and use this for sorting array
-        this.newTask.sortDate = moment(
+      addNewTask() {
+        // call the input validate function to trigger error messages of the form
+        this.checkName();
+        this.checkDueTime();
+        this.checkDueDate();
+        // if all validations return true then process save
+        if ( this.checkName() && this.checkDueDate() && this.checkDueTime() ) {
+          if ( this.settings.show12HourFormat ) {
+            this.newTask.dueTime = moment(this.newTask.dueTime, 'hh:mma').format(
+              'HH:mm'
+            );
+          } else {
+            this.newTask.dueTime = moment(this.newTask.dueTime, 'HH:mm').format(
+              'HH:mm'
+            );
+          }
+          //use sortDate field to record UTC format date and use this for sorting array
+          this.newTask.sortDate = moment(
           this.newTask.dueDate,
           'DD/MM/YYYY'
         ).format('X');

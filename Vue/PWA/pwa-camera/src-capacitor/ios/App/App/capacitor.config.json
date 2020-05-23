@@ -1,0 +1,10 @@
+{
+  "appId": "com.day41.pwacamera",
+  "appName": "pwa-camera",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.8.100:8080"
+  }
+}

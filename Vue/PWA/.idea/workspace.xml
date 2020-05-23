@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8baaf333-98f8-4e77-ab34-d7eebc348606" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/camera/vue-pwa-camera/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/camera/vue-pwa-camera/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/camera/vue-pwa-camera/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/camera/vue-pwa-camera/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/auth/LoginRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/auth/LoginRegister.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/NoTasks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/NoTasks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/ShowAddTask.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/ShowAddTask.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/ShowEditTask.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/ShowEditTask.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TaskDueTime.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TaskDueTime.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TaskList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TaskList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TasksCompleted.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TasksCompleted.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TasksToDo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/TasksToDo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/tools/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/tools/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/tools/SortBy.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/components/tasks/tools/SortBy.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/layouts/MainLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/layouts/MainLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/pages/PageTodo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/pages/PageTodo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../quasar/todo/src/pages/TaskError.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../quasar/todo/src/pages/TaskError.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectId" id="1bykobej2x6yecUIYiD6zsc43sL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="prettier.files.pattern" value="{**/*,*}.{js,ts,jsx,tsx, vue}" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="run.prettier.on.save" value="true" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:8080">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8baaf333-98f8-4e77-ab34-d7eebc348606" name="Default Changelist" comment="" />
+      <created>1589611896125</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589611896125</updated>
+      <workItem from="1589611898529" duration="3798000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1331" y="385" key="#Notifications" timestamp="1589615285279">
+      <screen x="0" y="23" width="1920" height="988" />
+    </state>
+    <state x="1331" y="385" key="#Notifications/0.23.1920.988@0.23.1920.988" timestamp="1589615285279" />
+    <state x="1191" y="377" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1589615615801">
+      <screen x="0" y="23" width="1920" height="988" />
+    </state>
+    <state x="1191" y="377" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1920.988@0.23.1920.988" timestamp="1589615615801" />
+    <state x="938" y="154" key="SettingsEditor" timestamp="1589615776869">
+      <screen x="0" y="23" width="1920" height="988" />
+    </state>
+    <state x="938" y="154" key="SettingsEditor/0.23.1920.988@0.23.1920.988" timestamp="1589615776869" />
+  </component>
+</project>

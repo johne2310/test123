@@ -1,0 +1,7 @@
+{
+  "appId": "com.day41.pwacamera",
+  "appName": "pwa-camera",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

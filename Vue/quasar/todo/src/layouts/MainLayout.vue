@@ -120,27 +120,27 @@
             title: 'Settings',
             caption: 'Edit App Settings',
             icon: 'settings',
-          path: { name: 'Settings' },
-        },
-      ],
-    };
-  },
-  methods: {
-    ...mapActions('users', ['logoutUser']),
-    quitApp() {
-      if (this.$q.platform.is.electron) {
-        window.ipcRenderer.send('quit-app');
-      }
+            path: { name: 'Settings' },
+          },
+        ],
+      };
     },
-  },
-  computed: {
-    ...mapGetters('users', ['isLoggedIn', 'user']),
-    label() {
-      if ( this.$q.screen.xs ) {
-        return '';
-      } else {
-        return 'Log out';
-      }
+    methods: {
+      ...mapActions('users', ['logoutUser']),
+      quitApp() {
+        if ( this.$q.platform.is.electron ) {
+          window.ipcRenderer.send('quit-app');
+        }
+      },
+    },
+    computed: {
+      ...mapGetters('users', ['isLoggedIn', 'user']),
+      label() {
+        if ( this.$q.screen.xs ) {
+          return '';
+        } else {
+          return 'Log out';
+        }
     },
   },
 };

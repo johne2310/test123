@@ -104,15 +104,15 @@
 
         options: [
           {
-          label: 'Name',
-          value: 'name',
-        },
-        {
-          label: 'Due Date',
-          value: 'dueDate',
-        },
-      ],
-    };
+            label: 'Name',
+            value: 'name',
+          },
+          {
+            label: 'Due Date',
+            value: 'dueDate',
+          },
+        ],
+      };
   },
   methods: {
     ...mapActions('tasks', ['setSortBy', 'loadFirestore']),

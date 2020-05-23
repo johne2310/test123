@@ -35,3 +35,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 /src/boot/firebase.js
+/src-capacitor/android/
+/src-capacitor/ios/
