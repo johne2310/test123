@@ -57,11 +57,14 @@
         </div>
       </template>
       <template v-else>
-        <!--        <div class="absolute-center">-->
-        <span class="absolute-center">
-          <q-spinner-gears color="grey-8" size="4em"/>
-          Hold on, just hitching up them horses...
-        </span>
+        <div class="column absolute-center">
+          <span class="centre">
+            <q-spinner-gears color="grey-8" size="4em"/>
+          </span>
+          <span>
+            Hold on, just hitching up them horses...
+          </span>
+        </div>
       </template>
     </div>
     <!-- add new task dialog -->
@@ -91,16 +94,16 @@
       'show-add-task': ShowAddTask,
       Search,
     },
-  data() {
-    return {
-      dateFormat: '',
-      loading: false,
-      completed: false,
-      showNewTaskForm: false,
-      // sortBy: 'Name',
+    data() {
+      return {
+        dateFormat: '',
+        loading: false,
+        completed: false,
+        showNewTaskForm: false,
+        // sortBy: 'Name',
 
-      options: [
-        {
+        options: [
+          {
           label: 'Name',
           value: 'name',
         },
@@ -198,5 +201,9 @@
 
   .div .front {
     z-index: 1;
+  }
+
+  .centre {
+    align-content: center;
   }
 </style>

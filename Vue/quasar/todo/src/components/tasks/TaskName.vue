@@ -1,5 +1,6 @@
 <template>
   <q-input
+    ref="name"
     sanitize
     autofocus
     @focus="$event.target.select()"
@@ -21,13 +22,16 @@ export default {
   data() {
     return {
       rules: {
-        required: val => !!val || 'This field is required.',
+        required: val => (val && val.length > 0) || 'This field is required.',
       },
     };
   },
   methods: {
     selectAll(event) {
       event.target.select();
+    },
+    validateName() {
+      return this.$refs.name.validate(); //call input validation here so result can be available to parent
     },
   },
   computed: {},

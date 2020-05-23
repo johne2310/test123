@@ -1,0 +1,10 @@
+{
+  "params": {
+    "include": [
+      "capacitor"
+    ],
+    "icon": "my-icon.png",
+    "quality": 12,
+    "themeColor": "3C71A7"
+  }
+}

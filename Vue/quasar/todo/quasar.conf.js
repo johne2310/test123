@@ -34,6 +34,9 @@ module.exports = function(ctx) {
         screen: {
           bodyClasses: true, // <<< add this
         },
+        capacitor: {
+          iosStatusBarPadding: true,
+        },
       },
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us', // Quasar language pack

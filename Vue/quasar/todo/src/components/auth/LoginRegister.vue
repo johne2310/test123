@@ -32,6 +32,7 @@
       <div class="row q-mb-sm">
         <q-input
           sanitize
+          type="email"
           ref="email"
           v-model.trim="credentials.email"
           class="col"
@@ -70,7 +71,7 @@
       <div class="row">
         <q-space />
         <q-btn
-          :disable="!setValid()"
+          :disable="setValid()"
           :loading="loading"
           type="submit"
           color="primary"
@@ -95,16 +96,16 @@
           email: '',
           password: '',
         },
-      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-      rules: {
-        required: val => !!val || 'Enter a valid email address',
-        email: val =>
-          this.reg.test(val.toLowerCase()) ||
-          'A valid email address is required',
-        minLength: val =>
-          val.length >= 6 || 'Password must contain six characters',
-      },
-    };
+        reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+        rules: {
+          required: val => !!val || 'Enter a valid email address',
+          email: val =>
+            this.reg.test(val.toLowerCase()) ||
+            'A valid email address is required',
+          minLength: val =>
+            val.length >= 6 || 'Password must contain six characters',
+        },
+      };
   },
 
   methods: {
@@ -133,7 +134,7 @@
       //  regulate disable on submit button
       // check to see if component is mounted (else $refs will not be available)
       if (this.mounted) {
-        return !(
+        return (
           this.$refs.email.hasError ||
           !this.$refs.email.hasValue ||
           this.$refs.password.hasError ||

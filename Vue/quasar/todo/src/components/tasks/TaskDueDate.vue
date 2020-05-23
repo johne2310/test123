@@ -1,8 +1,10 @@
 <template>
   <q-input
+    ref="dueDate"
     class="col"
     outlined
     :value="taskDueDate"
+    :rules="[rules.required]"
     hint="Due date"
     clearable
     @input="$emit('update:taskDueDate', $event)"
@@ -30,6 +32,22 @@
 <script>
 export default {
   props: ['taskDueDate', 'dateOptions'],
+  data() {
+    return {
+      rules: {
+        required: val =>
+          (val !== null && val !== '') || 'This field is required.',
+        // required: val => (val && val.length > 0) || 'This field is required.',
+        date: val =>
+          /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(val) || 'This is not a valid date',
+      },
+    };
+  },
+  methods: {
+    validateDate() {
+      return this.$refs.dueDate.validate(); //call input validation here so result can be available to parent
+    },
+  },
 };
 </script>
 

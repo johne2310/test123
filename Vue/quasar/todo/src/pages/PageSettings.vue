@@ -54,26 +54,33 @@
           <q-item-label>Email Us</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-icon name="mdi-email-send-outline" color="grey-6" />
+          <q-icon name="mdi-email-send-outline" color="grey-6"/>
         </q-item-section>
       </q-item>
     </q-list>
+    <div class="q-pl-sm q-pt-md right">
+      <span>Version: {{ version }}</span>
+    </div>
   </q-page>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { openURL } from 'quasar';
-export default {
-  data() {
-    return {
-      // showOneList: false,
-    };
-  },
-  methods: {
-    ...mapActions('settings', ['setTimeFormat', 'setListFormat']),
-    // toggleTimeFormat() {
-    // this.timeFormat = !this.timeFormat;
+  import { mapActions, mapGetters } from 'vuex';
+  import { version } from '../../package.json';
+
+  import { openURL } from 'quasar';
+
+  export default {
+    data() {
+      return {
+        // showOneList: false,
+        version: version,
+      };
+    },
+    methods: {
+      ...mapActions('settings', ['setTimeFormat', 'setListFormat']),
+      // toggleTimeFormat() {
+      // this.timeFormat = !this.timeFormat;
     // },
     visitWebsite() {
       openURL('http://www.day41.com.au');
@@ -103,5 +110,11 @@ export default {
       },
     },
   },
-};
+  };
 </script>
+
+<style>
+  .right {
+    text-align: right;
+  }
+</style>

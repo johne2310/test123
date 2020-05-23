@@ -21,33 +21,31 @@
       <!-- Action buttons -->
       <TaskButtons :validTask="validTask"></TaskButtons>
     </q-form>
-
-    <pre>{{ newTask }}</pre>
   </q-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import moment from 'moment';
-import mixinAddEditTask from 'src/mixins/mixin-add-edit-task.js';
-import { date } from 'quasar';
-import TaskHeader from 'components/tasks/TaskHeader.vue';
-import TaskName from 'components/tasks/TaskName.vue';
-import TaskDueDate from 'components/tasks/TaskDueDate.vue';
-import TaskDueTime from 'components/tasks/TaskDueTime.vue';
-import TaskButtons from 'components/tasks/TaskButtons.vue';
+  import { mapGetters } from 'vuex';
+  import moment from 'moment';
+  import mixinAddEditTask from 'src/mixins/mixin-add-edit-task.js';
+  import { date } from 'quasar';
+  import TaskHeader from 'components/tasks/TaskHeader.vue';
+  import TaskName from 'components/tasks/TaskName.vue';
+  import TaskDueDate from 'components/tasks/TaskDueDate.vue';
+  import TaskDueTime from 'components/tasks/TaskDueTime.vue';
+  import TaskButtons from 'components/tasks/TaskButtons.vue';
 
-export default {
-  mixins: [mixinAddEditTask],
-  props: ['taskId', 'taskToEdit'],
-  components: {
-    TaskHeader,
-    TaskName,
-    TaskDueDate,
-    TaskDueTime,
-    TaskButtons,
-  },
-  data() {
+  export default {
+    mixins: [mixinAddEditTask],
+    props: ['taskId', 'taskToEdit'],
+    components: {
+      TaskHeader,
+      TaskName,
+      TaskDueDate,
+      TaskDueTime,
+      TaskButtons,
+    },
+    data() {
     return {
       newTask: {},
       today: '',

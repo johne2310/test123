@@ -13,7 +13,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         /> -->
 
-        <q-toolbar-title class="absolute-center">
+        <q-toolbar-title>
           Awesome Todo
         </q-toolbar-title>
         <q-space />
@@ -110,16 +110,16 @@
       return {
         leftDrawerOpen: false,
         essentialLinks: [
-        {
-          title: 'Todos',
-          caption: 'View Todos',
-          icon: 'list',
-          path: { name: 'Home' },
-        },
-        {
-          title: 'Settings',
-          caption: 'Edit App Settings',
-          icon: 'settings',
+          {
+            title: 'Todos',
+            caption: 'View Todos',
+            icon: 'list',
+            path: { name: 'Home' },
+          },
+          {
+            title: 'Settings',
+            caption: 'Edit App Settings',
+            icon: 'settings',
           path: { name: 'Settings' },
         },
       ],
@@ -159,5 +159,9 @@
 
   .q-drawer .q-router-link--exact-active {
     color: rgb(13, 6, 56) !important;
+  }
+
+  .left50 {
+    margin-left: 200px;
   }
 </style>
